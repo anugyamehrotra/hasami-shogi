@@ -34,21 +34,22 @@ public class Board {
     /**
      * Method to return the inner-row index of a Coordinate on a Board
      * @param coordinate a coordinate on the Hasami Shogi board
-     * @return an Integer index value for the specific row of the coordinate (based on ASCII values of characters & domain of 'a' to 'i')
+     * @return an Integer index value for the specific row of the coordinate (based on row-domain of 9-1; where nine (9) = 0 & one (1) = 8)
      */
     private int parseRowIndex(Coordinate coordinate){
-        // Gather column values & assign valid char value (according to domain of: 'a' to 'i' for nine (9) rows)
-        // 'a' = 0, f = '5'
-        return coordinate.getCol().charAt(0) - 'a';
-    }
+        return 9- coordinate.getRow();
 
+    }
+    
     /**
      * Method to return the inner-column index of a Coordinate on a Board
      * @param coordinate a coordinate on the Hasami Shogi board
-     * @return an Integer index value for the specific column of the coordinate (based on row-domain of 1-9; where nine (9) = 0 & one (1) = 8)
+     * @return an Integer index value for the specific row of the coordinate (based on ASCII values of characters & domain of 'a' to 'i'; where )
      */
     private int parseColumnIndex(Coordinate coordinate){
-        return 9 - coordinate.getRow();
+        // Gather column values & assign valid char value (according to domain of: 'a' to 'i' for nine (9) rows)
+        // 'a' = 0, f = '5'
+        return coordinate.getCol().charAt(0) - 'A';
     }
 
     /** 
@@ -163,8 +164,7 @@ public class Board {
             String currentPiece = gameBoard[currentRow][currentCol];
             gameBoard[currentRow][currentCol] = "x";
             gameBoard[desiredRow][desiredCol] = currentPiece;
-
-            checkAndKill(desiredLocation);
+            
         }
     }
 

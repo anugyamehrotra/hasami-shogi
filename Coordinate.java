@@ -7,8 +7,8 @@ public class Coordinate{
 
     /**
      * Constructor for individual Coordinate object in Hasami Shogi 
-     * @param row Integer x-plane value of Coordinate (valid domain: 0-9)
-     * @param col String y-plane value of Coordinate (valid domain: a-i)
+     * @param row Integer y-plane value of Coordinate (valid domain: 0-9)
+     * @param col String x-plane value of Coordinate (valid domain: a-i)
      */
     Coordinate(int row, String col){
         this.row = row;
@@ -21,11 +21,11 @@ public class Coordinate{
      */
     @Override
     public String toString(){
-        return String.format("(%d,%s", row, col);
+        return String.format("(%s,%d)", col, row);
     }
 
     /**
-     * Method to return the x-plane attribute of a Coordinate object
+     * Method to return the y-plane attribute of a Coordinate object
      * @return Integer representation of attribute
      */
     int getRow(){
@@ -33,7 +33,7 @@ public class Coordinate{
     }
 
     /**
-     * Method to return the y-plane attribute of a Coordinate object
+     * Method to return the x-plane attribute of a Coordinate object
      * @return String representation of attribute
      */
     String getCol(){
@@ -41,7 +41,7 @@ public class Coordinate{
     }
 
     /**
-     * Method to overwrite x-plane attribute of a Coordinate object
+     * Method to overwrite y-plane attribute of a Coordinate object
      * @param setRow Integer row-value (x-plane) attribute to be set/overwritten to original Coordinate attributes
      */
     void setRow(int setRow){
@@ -49,8 +49,8 @@ public class Coordinate{
     }
 
     /**
-     * Method to overwrite y-plane attribute of a Coordinate object
-     * @param setRow String col-value (y-plane) attribute to be set/overwritten to original Coordinate attributes
+     * Method to overwrite x-plane attribute of a Coordinate object
+     * @param setCol String col-value (y-plane) attribute to be set/overwritten to original Coordinate attributes
      */
     void setCol(String setCol){
         this.col = setCol;

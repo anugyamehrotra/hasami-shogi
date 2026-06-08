@@ -168,7 +168,6 @@ public class Board {
         }
     }
 
-
     /** 
      * Method check and kill pieces (across all directions)
      * Dynamically look through board from desired location (and overwrite player pieces based on player type) from four (4) directions & remove targets accordingly
@@ -216,6 +215,7 @@ public class Board {
             currentRow--;
         }
         // check if, from current pos, another piece (of current player) is present directly across & is "sandwiched"
+        // if 'sandwich' condition is confirmed, replace all instances 'sandwiched' by a player piece with 'x' (blank space representation)
         if(currentRow >= 0 && gameBoard[currentRow][currentCol].equals(playerPiece) && numCapturable > 0){
             int removeRow = rowTarget - 1;
             while(removeRow > currentRow){
@@ -244,6 +244,7 @@ public class Board {
             currentRow++;
         }
         // check if, from current pos, another piece (of current player) is present directly across & is "sandwiched"
+        // if 'sandwich' condition is confirmed, replace all instances 'sandwiched' by a player piece with 'x' (blank space representation)
         if(currentRow < 9 && gameBoard[currentRow][currentCol].equals(playerPiece) && numCapturable > 0){
             int removeRow = rowTarget + 1;
             while(removeRow < currentRow){
@@ -272,6 +273,7 @@ public class Board {
             currentCol--;
         }
         // check if, from current pos, another piece (of current player) is present directly across & is "sandwiched"
+        // if 'sandwich' condition is confirmed, replace all instances 'sandwiched' by a player piece with 'x' (blank space representation)
         if(currentCol >= 0 && gameBoard[currentRow][currentCol].equals(playerPiece) && numCapturable > 0){
             int removeCol = colTarget - 1;
             while(removeCol > currentCol){
@@ -301,6 +303,7 @@ public class Board {
         }
 
         // check if, from current pos, another piece (of current player) is present directly across & is "sandwiched"
+        // if 'sandwich' condition is confirmed, replace all instances 'sandwiched' by a player piece with 'x' (blank space representation)
         if(currentCol < 9 && gameBoard[currentRow][currentCol].equals(playerPiece) && numCapturable > 0){
             int removeCol = colTarget + 1;
             while(removeCol < currentCol){

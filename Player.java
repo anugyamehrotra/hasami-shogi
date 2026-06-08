@@ -22,8 +22,17 @@ class Player {
     }
 
     Coordinate[] getMove(Board board){
+        Scanner input = new Scanner(System.in);
+        String start = "";
+        String end = "";
+
         if (!isComputer){
-            System.out.println("Enter a start coordinate: ")
+            System.out.println("Enter a start coordinate: ");
+            Coordinate startCoord = parseInt(input.next());
+            System.out.println("Enter a start coordinate: ");
+            Coordinate endCoord = parseInt(input.next());
+
+
             
         }
     }

@@ -55,4 +55,13 @@ public class Coordinate{
     void setCol(String setCol){
         this.col = setCol;
     }
+
+
+    /**
+     * Method to parse user input into a Coordinate object
+     * @param coord String coordinate value to be converted into a Coordinate object
+     */
+    static Coordinate parseString(String coord){
+        return new Coordinate(Integer.valueOf(coord.substring(1, 2)), coord.substring(1));
+    }
 }

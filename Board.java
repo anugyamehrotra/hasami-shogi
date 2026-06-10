@@ -521,4 +521,8 @@ public class Board {
         }
         return numCapturable;
     } 
+
+    public String toString(){
+        return "";
+    }
 }

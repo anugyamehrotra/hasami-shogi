@@ -1,76 +1,76 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game {
-    private Player player1;
-    private Player player2;
-    private Board board;
+class Player {
+    private String name;
+    private String colour;
+    private int captureCount;
+    private boolean isComputer;
 
-    Game(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
-        this.board = new Board();
+    Player(String name, String colour, boolean isComputer) {
+        this.name = name;
+        this.colour = colour;
+        this.isComputer = isComputer;
+        this.captureCount = 0;
     }
 
-    void setupGame(){
-        System.out.println("---- Hasami Shogi ----- \n");
-        System.out.println("Enter (1) for player vs. player or (2) for player vs. computer");
-
-        Scanner input = new Scanner(System.in);
-        int choice = input.nextInt();
-        if (choice == 1) {
-            player1 = new Player("Player 1", "b", false);
-            player2 = new Player("Player 2", "w", false);
-        } else {
-            player1 = new Player("Player 1", "b", false);
-            player2 = new Player("Computer", "w", true);
-        }
+    void addCaptures(int caps) {
+        this.captureCount += caps;
     }
 
+    String getName() {
+        return this.name;
+    }
 
-    void startGame() {
-        setupGame();
+    int captureCount() {
+        return this.captureCount;
+    }
 
-        Player currPlayer = player1;
-        while (!gameOver()) {
-            System.out.println(board);
-            System.out.println(currPlayer.getName() + "'s turn");
+    Coordinate[] computerMove(Board board){
+        ArrayList<Coordinate[]> possibleMoves = new ArrayList<>();
+            for (int i = 1; i <= 9; i++) {
+                for (char c = 'A'; c <= 'I'; c++) {
+                    Coordinate startCoord = new Coordinate(i, String.valueOf(c));
 
-            takeTurn(currPlayer);
+                    if (board.getPiece(startCoord).equals(this.colour)) {
+                        for (int x = 1; x <= 9; x++) {
+                            for (char y = 'A'; y <= 'I'; y++) {
+                                Coordinate endCoord = new Coordinate(x, String.valueOf(y));
 
-            if (currPlayer == player1) {
-                currPlayer = player2;
-            } else {
-                currPlayer = player1;
+                                if (board.canMove(startCoord, endCoord)) {
+                                    possibleMoves.add(new Coordinate[] { startCoord, endCoord });
+                                }
+                            }
+                        }
+                    }
+                }
             }
-        }
+            return possibleMoves.get((int) (Math.random() * possibleMoves.size()));
+    }
 
-        System.out.println(board);
-        Player winner = player1;
-        if (player1.captureCount() >= 5) {
-            winner = player1;
+    Coordinate[] getMove(Board board) {
+        Scanner input = new Scanner(System.in);
+        String start = "";
+        String end = "";
+
+        if (!isComputer) {
+            while (true) {
+                System.out.println("Enter a start coordinate: ");
+                Coordinate startCoord = Coordinate.parseString(input.next());
+                System.out.println("Enter a start coordinate: ");
+                Coordinate endCoord = Coordinate.parseString(input.next());
+
+                if (!board.canMove(startCoord, endCoord)) {
+                    System.out.println("Invalid move.");
+                } else {
+                    Coordinate[] pos = { startCoord, endCoord };
+                    return pos;
+                }
+            }
+
         } else {
-            winner = player2;
+            return computerMove(board);
         }
 
-        System.out.println(winner.getName() + " is the winner of this game!");
-
     }
-
-    void takeTurn(Player currPlayer) {
-        Coordinate[] pos = currPlayer.getMove(board);
-        board.movePiece(pos[0], pos[1]);
-
-        int captures = 0;
-        captures = board.cornerKill(pos[1]);
-
-        currPlayer.addCaptures(captures);
-        if (captures > 0) {
-            System.out.printf("%s captured %d pieces.\n", currPlayer.getName(), captures);
-        }
-    }
-
-    boolean gameOver() {
-        return player1.captureCount() >= 5 || player2.captureCount() >= 5;
-    }
-
 }

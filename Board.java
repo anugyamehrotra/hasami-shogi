@@ -1,6 +1,7 @@
+import java.util.Arrays;
+
 public class Board {
     
-
     // Board Attributes 
     private String[][] gameBoard;
 
@@ -21,23 +22,23 @@ public class Board {
         for(int rowPop = 0; rowPop < 9; rowPop++){
             for(int colPop = 0; colPop < 9; colPop++){
                 if(rowPop == 0){
-                    gameBoard[rowPop][colPop] = "w"; // White ☖ piece on row 'a'
+                    gameBoard[rowPop][colPop] = "☖"; // White ☖ piece on row 'a'
                 } else if (rowPop == 8){
-                    gameBoard[rowPop][colPop] = "b"; // Black ☗ piece on row 'i'
+                    gameBoard[rowPop][colPop] = "☗"; // Black ☗ piece on row 'i'
                 } else {
                     gameBoard[rowPop][colPop] = "x"; // Blank piece (across all rows except 'a' & 'i')
                 }
             }
         }
     }
-
+ 
     /**
      * Method to return the inner-row index of a Coordinate on a Board
      * @param coordinate a coordinate on the Hasami Shogi board
      * @return an Integer index value for the specific row of the coordinate (based on row-domain of 9-1; where nine (9) = 0 & one (1) = 8)
      */
     private int parseRowIndex(Coordinate coordinate){
-        return 9- coordinate.getRow();
+        return 9 - coordinate.getRow();
 
     }
     
@@ -175,7 +176,7 @@ public class Board {
      */
     public void checkAndKill(Coordinate desiredCoordinate){
 
-        // declare current row & column data of 
+        // declare current row & column data of desired coordinate
         int rowTarget = parseRowIndex(desiredCoordinate);
         int colTarget = parseColumnIndex(desiredCoordinate);
         String playerPiece = gameBoard[rowTarget][colTarget];
@@ -313,7 +314,178 @@ public class Board {
         }
     }
 
+    public void cornerKill(Coordinate desiredCoordinate){
+        // declare current row & column data of desired coordinate
+        int currentRow = parseRowIndex(desiredCoordinate);
+        int currentCol = parseColumnIndex(desiredCoordinate);
+        String playerPiece = gameBoard[currentRow][currentCol];
 
-    // [ add check corner kill & board to string later ]
-    
+        if(playerPiece.equals("x")){
+            return;
+        }
+
+        // overwrite pieces based on player type
+        String targetPiece = "w";
+        if(playerPiece.equals("w")){
+            targetPiece = "b";
+        }
+
+        topLeftCornerKill(currentRow, currentCol, playerPiece, targetPiece);
+        topRightCornerKill(currentRow, currentCol, playerPiece, targetPiece);
+        bottomLeftCornerKill(currentRow, currentCol, playerPiece, targetPiece);
+        bottomRightCornerKill(currentRow, currentCol, playerPiece, targetPiece);
+    }
+
+    /**
+     * Method to dynamically search instances of enemy pieces from the top-left corner 
+     * Search and log instances of enemy targets (of player) from the top-left corner ([0][0]), validate valid corner-kill condition, and replace all enemy instances with a "killed" piece
+     * @param currentRow row index of a Coordinate Object
+     * @param currentCol column index of a Coordinate Object
+     * @param playerPiece String value of current player piece
+     * @param targetPiece String value of target piece(s)
+     */
+    private void topLeftCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
+        // check for corner target (top left: [0][0])
+        if(gameBoard[0][0].equals((targetPiece))){
+            int rowTarget = 0;
+            int colTarget = 0;
+
+            // check how many row & col targets vertically and horizontally
+            while(rowTarget < 9 && gameBoard[rowTarget][0].equals(targetPiece)){
+                rowTarget++;
+            }
+
+            while(rowTarget < 9 && gameBoard[0][colTarget].equals(targetPiece)){
+                colTarget++;
+            }
+
+            // if corner-kill (top-left) conditions are valid, complete kill process by eliminating all target pieces
+            if(rowTarget < 9 && colTarget < 9 && gameBoard[rowTarget][0].equals(playerPiece) && gameBoard[0][colTarget].equals(playerPiece)){
+                if((currentRow == rowTarget && currentCol == 0) || (currentCol == 0 && currentCol == colTarget)){
+                    for(int i = 0; i < rowTarget; i++){
+                        gameBoard[i][0] = "x";
+                    }
+
+                    for(int c = 0; c < colTarget; c++){
+                        gameBoard[0][c] = "x";
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Method to dynamically search instances of enemy pieces from the top-right corner 
+     * Search and log instances of enemy targets (of player) from the top-right corner ([0][8]), validate valid corner-kill condition, and replace all enemy instances with a "killed" piece
+     * @param currentRow row index of a Coordinate Object
+     * @param currentCol column index of a Coordinate Object
+     * @param playerPiece String value of current player piece
+     * @param targetPiece String value of target piece(s)
+     */
+    private void topRightCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
+        // check for corner target (top right: [0][8])
+        if(gameBoard[0][8].equals(targetPiece)){
+            int rowTarget = 0;
+            int colTarget = 8;
+
+            // check how many row & col targets vertically and horizontally
+            while(rowTarget < 9 && gameBoard[rowTarget][8].equals(targetPiece)){
+                rowTarget++;
+            }
+
+            while(colTarget >= 0 && gameBoard[0][colTarget].equals(targetPiece)){
+                colTarget--;
+            }
+
+            // if corner-kill (top-right) conditions are valid, complete kill process by eliminating all target pieces
+            if(rowTarget < 9 && colTarget >= 0 && gameBoard[rowTarget][8].equals(playerPiece) && gameBoard[0][colTarget].equals(playerPiece)){
+                if((currentRow == rowTarget && currentCol == 8) || (currentRow == 0 && currentCol == colTarget)){
+                    for(int i = 0; i < rowTarget; i++){
+                        gameBoard[i][8] = "x";
+                    }
+
+                    for(int c = colTarget + 1; c <= 8; c++){
+                        gameBoard[0][c] = "x";
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Method to dynamically search instances of enemy pieces from the bottom-left corner 
+     * Search and log instances of enemy targets (of player) from the top-right corner ([8][0]), validate valid corner-kill condition, and replace all enemy instances with a "killed" piece
+     * @param currentRow row index of a Coordinate Object
+     * @param currentCol column index of a Coordinate Object
+     * @param playerPiece String value of current player piece
+     * @param targetPiece String value of target piece(s)
+     */
+    private void bottomLeftCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
+        // check for corner target (bottom left: [8][0])
+        if(gameBoard[8][0].equals(targetPiece)){
+            int rowTarget = 8;
+            int colTarget = 0;
+
+            // check how many row & col targets vertically and horizontally
+            while(rowTarget >= 0 && gameBoard[rowTarget][0].equals(targetPiece)){
+                rowTarget--;
+            }
+
+            while(colTarget < 9 && gameBoard[8][colTarget].equals(targetPiece)){
+                colTarget++;
+            }
+
+            // if corner-kill (bottom-left) conditions are valid, complete kill process by eliminating all target pieces
+            if(rowTarget >= 0 && colTarget < 9 && gameBoard[rowTarget][0].equals(playerPiece) && gameBoard[8][colTarget].equals(playerPiece)){
+                if((currentRow == rowTarget && currentCol == 0) || (currentRow == 8 && currentCol == colTarget)){
+                    for(int i = rowTarget + 1; i <= 8; i++){
+                        gameBoard[i][0] = "x";
+                    }
+
+                    for(int c = 0; c < colTarget; c++){
+                        gameBoard[8][c] = "x";
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Method to dynamically search instances of enemy pieces from the bottom-right corner 
+     * Search and log instances of enemy targets (of player) from the bottom-right corner ([8][8]), validate valid corner-kill condition, and replace all enemy instances with a "killed" piece
+     * @param currentRow row index of a Coordinate Object
+     * @param currentCol column index of a Coordinate Object
+     * @param playerPiece String value of current player piece
+     * @param targetPiece String value of target piece(s)
+     */
+    private void bottomRightCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
+        // check for corner target (bottom right: [8][8])
+        if(gameBoard[8][8].equals(targetPiece)){
+            int rowTarget = 8;
+            int colTarget = 8;
+
+            // check how many row & col targets vertically and horizontally
+            while(rowTarget >= 0 && gameBoard[rowTarget][8].equals(targetPiece)){
+                rowTarget--;
+            }
+
+            while(colTarget >= 0 && gameBoard[8][colTarget].equals(targetPiece)){
+                colTarget--;
+            }
+
+            // if corner-kill (bottom-right) conditions are valid, complete kill process by eliminating all target pieces
+            if(rowTarget >= 0 && colTarget >= 0 && gameBoard[rowTarget][8].equals(playerPiece) && gameBoard[8][colTarget].equals(playerPiece)){
+                if((currentRow == rowTarget && currentCol == 8) || (currentRow == 8 && currentCol == colTarget)){
+                    for(int i = rowTarget + 1; i <= 8; i++){
+                        gameBoard[i][8] = "x";
+                    }
+
+                    for(int c = colTarget + 1; c <= 8; c++){
+                        gameBoard[8][c] = "x";
+                    }
+                }
+            }
+        }
+    }
+        
 }

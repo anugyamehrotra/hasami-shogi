@@ -26,6 +26,28 @@ class Player {
         return this.captureCount;
     }
 
+    Coordinate[] computerMove(Board board){
+        ArrayList<Coordinate[]> possibleMoves = new ArrayList<>();
+            for (int i = 1; i <= 9; i++) {
+                for (char c = 'A'; c <= 'I'; c++) {
+                    Coordinate startCoord = new Coordinate(i, String.valueOf(c));
+
+                    if (board.getPiece(startCoord).equals(this.colour)) {
+                        for (int x = 1; x <= 9; x++) {
+                            for (char y = 'A'; y <= 'I'; y++) {
+                                Coordinate endCoord = new Coordinate(x, String.valueOf(y));
+
+                                if (board.canMove(startCoord, endCoord)) {
+                                    possibleMoves.add(new Coordinate[] { startCoord, endCoord });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return possibleMoves.get((int) (Math.random() * possibleMoves.size()));
+    }
+
     Coordinate[] getMove(Board board) {
         Scanner input = new Scanner(System.in);
         String start = "";
@@ -47,25 +69,7 @@ class Player {
             }
 
         } else {
-            ArrayList<Coordinate[]> possibleMoves = new ArrayList<>();
-            for (int i = 1; i <= 9; i++) {
-                for (char c = 'A'; c <= 'I'; c++) {
-                    Coordinate startCoord = new Coordinate(i, String.valueOf(c));
-
-                    if (board.getPiece(startCoord).equals(this.colour)) {
-                        for (int x = 1; x <= 9; x++) {
-                            for (char y = 'A'; y <= 'I'; y++) {
-                                Coordinate endCoord = new Coordinate(x, String.valueOf(y));
-
-                                if (board.canMove(startCoord, endCoord)) {
-                                    possibleMoves.add(new Coordinate[] { startCoord, endCoord });
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return possibleMoves.get((int) (Math.random() * possibleMoves.size()));
+            return computerMove(board);
         }
 
     }

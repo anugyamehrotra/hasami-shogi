@@ -11,7 +11,7 @@ public class Game {
         this.board = new Board();
     }
 
-    void startGame() {
+    void setupGame(){
         System.out.println("---- Hasami Shogi ----- \n");
         System.out.println("Enter (1) for player vs. player or (2) for player vs. computer");
 
@@ -24,6 +24,11 @@ public class Game {
             player1 = new Player("Player 1", "b", false);
             player2 = new Player("Computer", "w", true);
         }
+    }
+
+
+    void startGame() {
+        setupGame();
 
         Player currPlayer = player1;
         while (!gameOver()) {

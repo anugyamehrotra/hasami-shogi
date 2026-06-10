@@ -183,7 +183,7 @@ public class Board {
             return;
         }
 
-        // overwrite pieces based on player type
+        // handle overwriting of playerPieces based on player turns
         String targetPiece = "w";
         if(playerPiece.equals("w")){
             targetPiece = "b";
@@ -208,13 +208,15 @@ public class Board {
 
         int numCapturable = 0;
 
-        // find how many pieces above to catch/kill
+        // loop through current row (upward) to locate enemy pieces in vertical arrangement
         while(currentRow >= 0 && gameBoard[currentRow][currentCol].equals(targetPiece)){
             numCapturable++;
             currentRow--;
         }
-        // check if, from current pos, another piece (of current player) is present directly across & is "sandwiched"
-        // if 'sandwich' condition is confirmed, replace all instances 'sandwiched' by a player piece with 'x' (blank space representation)
+
+        // vertical (upward) check-and-kill validation process
+            // validate, from current position, if another piece (of same type as current player) is directly across a vertical check & is 'sandwiched'
+            // replace all instances of 'sandwiched' enemy pieces with 'x' (blank space representation)
         if(currentRow >= 0 && gameBoard[currentRow][currentCol].equals(playerPiece) && numCapturable > 0){
             int removeRow = rowTarget - 1;
             while(removeRow > currentRow){
@@ -232,18 +234,20 @@ public class Board {
      * @param targetPiece String value of target piece(s)
      */
     private void checkDownward(int rowTarget, int colTarget, String playerPiece, String targetPiece){
-        int currentRow = rowTarget + 1; // current row 
-        int currentCol = colTarget; // current col
+        int currentRow = rowTarget + 1; 
+        int currentCol = colTarget; 
 
         int numCapturable = 0;
 
-        // find how many pieces below to catch/kill
+        // loop through current row (downward) to locate enemy pieces in vertical arrangement
         while(currentRow < 9 && gameBoard[currentRow][currentCol].equals(targetPiece)){
             numCapturable++;
             currentRow++;
         }
-        // check if, from current pos, another piece (of current player) is present directly across & is "sandwiched"
-        // if 'sandwich' condition is confirmed, replace all instances 'sandwiched' by a player piece with 'x' (blank space representation)
+
+        // vertical (downward) check-and-kill validation process
+            // validate, from current position, if another piece (of same type as current player) is directly across a vertical check & is 'sandwiched'
+            // replace all instances of 'sandwiched' enemy pieces with 'x' (blank space representation)
         if(currentRow < 9 && gameBoard[currentRow][currentCol].equals(playerPiece) && numCapturable > 0){
             int removeRow = rowTarget + 1;
             while(removeRow < currentRow){
@@ -266,13 +270,15 @@ public class Board {
 
         int numCapturable = 0;
 
-        // find how many pieces on leftside to catch/kill
+        // loop through current column (leftside) to locate enemy pieces in horizontal arrangement
         while(currentCol >= 0 && gameBoard[currentRow][currentCol].equals(targetPiece)){
             numCapturable++;
             currentCol--;
         }
-        // check if, from current pos, another piece (of current player) is present directly across & is "sandwiched"
-        // if 'sandwich' condition is confirmed, replace all instances 'sandwiched' by a player piece with 'x' (blank space representation)
+        
+        // horitzontal (leftside) check-and-kill validation process
+            // validate, from current position, if another piece (of same type as current player) is directly across horitzontally (left-side) & is 'sandwiched'
+            // replace all instances of 'sandwiched' enemy pieces with 'x' (blank space representation)
         if(currentCol >= 0 && gameBoard[currentRow][currentCol].equals(playerPiece) && numCapturable > 0){
             int removeCol = colTarget - 1;
             while(removeCol > currentCol){
@@ -295,14 +301,15 @@ public class Board {
 
         int numCapturable = 0;
 
-        // find how many pieces on rightside to catch/kill
+        // loop through current row (rightside) to locate enemy pieces in horizontal arrangement
         while(currentCol < 9 && gameBoard[currentRow][currentCol].equals(targetPiece)){
             numCapturable++;
             currentCol++;
         }
 
-        // check if, from current pos, another piece (of current player) is present directly across & is "sandwiched"
-        // if 'sandwich' condition is confirmed, replace all instances 'sandwiched' by a player piece with 'x' (blank space representation)
+        // horitzontal (rightside) check-and-kill validation process
+            // validate, from current position, if another piece (of same type as current player) is directly across horitzontally (right-side) & is 'sandwiched'
+            // replace all instances of 'sandwiched' enemy pieces with 'x' (blank space representation)
         if(currentCol < 9 && gameBoard[currentRow][currentCol].equals(playerPiece) && numCapturable > 0){
             int removeCol = colTarget + 1;
             while(removeCol < currentCol){
@@ -312,6 +319,12 @@ public class Board {
         }
     }
 
+    /**
+     * Method to dynamically kill & count enemy pieces arranged orthogonally
+     * Splits checks into respective corners and returns respective player-kill instances
+     * @param desiredCoordinate a Coordinate object of the desired location to validate an 'orthogonal'/corner-kill
+     * @return integer index of number of eliminated enemy pieces
+     */
     public int cornerKill(Coordinate desiredCoordinate){
         // declare current row & column data of desired coordinate
         int currentRow = parseRowIndex(desiredCoordinate);
@@ -322,7 +335,7 @@ public class Board {
             return 0;
         }
 
-        // overwrite pieces based on player type
+        // handle overwriting of playerPieces based on player turns
         String targetPiece = "w";
         if(playerPiece.equals("w")){
             targetPiece = "b";
@@ -346,8 +359,9 @@ public class Board {
      * @param targetPiece String value of target piece(s)
      */
     private int topLeftCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
-        // check for corner target (top left: [0][0])
+       // declare corner-position attributes (for top-left corner) & capturable enemies
         int numCapturable = 0;
+
         if(gameBoard[0][0].equals((targetPiece))){
             int rowTarget = 0;
             int colTarget = 0;
@@ -361,8 +375,10 @@ public class Board {
                 colTarget++;
             }
 
-            // if corner-kill (top-left) conditions are valid, complete kill process by eliminating all target pieces
-            if(rowTarget > 0 && colTarget > 0 && rowTarget < 9 && colTarget < 9 && gameBoard[rowTarget][0].equals(playerPiece) && gameBoard[0][colTarget].equals(playerPiece)){
+            // corner kill (top-left: ([0][0])) validation process
+                // ensure row & column targets (occupying instances of enemy players) are in-range of board (from range: 0 to 8) & sandwich condition is true (if final position on row & column targets are player pieces and differentiate from enemy pieces; in orthogonal shape")
+            if(rowTarget < 9 && colTarget < 9 && gameBoard[rowTarget][0].equals(playerPiece) && gameBoard[0][colTarget].equals(playerPiece)){
+               // confirm validity of horizontal and vertical indexes referring to values of the desired coordinate (current row & column)
                 if((currentRow == rowTarget && currentCol == 0) || (currentRow == 0 && currentCol == colTarget)){
                     for(int i = 0; i < rowTarget; i++){
                         if(!gameBoard[i][0].equals("x")){
@@ -383,6 +399,7 @@ public class Board {
         return numCapturable;
     }
 
+
     /**
      * Method to dynamically search instances of enemy pieces from the top-right corner 
      * Search and log instances of enemy targets (of player) from the top-right corner ([0][8]), validate valid corner-kill condition, and replace all enemy instances with a "killed" piece
@@ -392,14 +409,13 @@ public class Board {
      * @param targetPiece String value of target piece(s)
      */
     private int topRightCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
-        // check for corner target (top right: [0][8])
+        // declare corner-position attributes (for top-right corner) & capturable enemies
         int numCapturable = 0;
 
         if(gameBoard[0][8].equals(targetPiece)){
             int rowTarget = 0;
             int colTarget = 8;
 
-            // check how many row & col targets vertically and horizontally
             while(rowTarget < 9 && gameBoard[rowTarget][8].equals(targetPiece)){
                 rowTarget++;
             }
@@ -408,8 +424,10 @@ public class Board {
                 colTarget--;
             }
 
-            // if corner-kill (top-right) conditions are valid, complete kill process by eliminating all target pieces
-            if(rowTarget > 0 && colTarget < 8 && rowTarget < 9 && colTarget >= 0 && gameBoard[rowTarget][8].equals(playerPiece) && gameBoard[0][colTarget].equals(playerPiece)){
+            // corner kill (top-right: ([0][8])) validation process
+                // ensure row & column targets (occupying instances of enemy players) are in-range of board (from range: 0 to 8) & sandwich condition is true (if final position on row & column targets are player pieces and differentiate from enemy pieces; in orthogonal shape")
+            if(rowTarget < 9 && colTarget >= 0 && gameBoard[rowTarget][8].equals(playerPiece) && gameBoard[0][colTarget].equals(playerPiece)){
+                // confirm validity of horizontal and vertical indexes referring to values of the desired coordinate (current row & column)
                 if((currentRow == rowTarget && currentCol == 8) || (currentRow == 0 && currentCol == colTarget)){
                     for(int i = 0; i < rowTarget; i++){
                         if(!gameBoard[i][8].equals("x")){
@@ -439,13 +457,13 @@ public class Board {
      * @param targetPiece String value of target piece(s)
      */
     private int bottomLeftCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
-        // check for corner target (bottom left: [8][0])
+        // declare corner-position (for bottom-left corner) attributes & capturable enemies
         int numCapturable = 0;
+
         if(gameBoard[8][0].equals(targetPiece)){
             int rowTarget = 8;
             int colTarget = 0;
 
-            // check how many row & col targets vertically and horizontally
             while(rowTarget >= 0 && gameBoard[rowTarget][0].equals(targetPiece)){
                 rowTarget--;
             }
@@ -454,8 +472,10 @@ public class Board {
                 colTarget++;
             }
 
-            // if corner-kill (bottom-left) conditions are valid, complete kill process by eliminating all target pieces
-            if(rowTarget < 8 && colTarget > 0 && rowTarget >= 0 && colTarget < 9 && gameBoard[rowTarget][0].equals(playerPiece) && gameBoard[8][colTarget].equals(playerPiece)){
+            // corner kill (bottom-left: ([8][0])) validation process
+                // ensure row & column targets (occupying instances of enemy players) are in-range of board (from range: 0 to 8) & sandwich condition is true (if final position on row & column targets are player pieces and differentiate from enemy pieces; in orthogonal shape")
+            if(rowTarget >= 0 && colTarget < 9 && gameBoard[rowTarget][0].equals(playerPiece) && gameBoard[8][colTarget].equals(playerPiece)){
+                // confirm validity of horizontal and vertical indexes referring to values of the desired coordinate (current row & column)
                 if((currentRow == rowTarget && currentCol == 0) || (currentRow == 8 && currentCol == colTarget)){
                     for(int i = rowTarget + 1; i <= 8; i++){
                         if(!gameBoard[i][0].equals("x")){
@@ -485,13 +505,13 @@ public class Board {
      * @param targetPiece String value of target piece(s)
      */
     private int bottomRightCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
-        // check for corner target (bottom right: [8][8])
+        // declare corner-position attributes (for bottom-right corner) & capturable enemies
         int numCapturable = 0;
+
         if(gameBoard[8][8].equals(targetPiece)){
             int rowTarget = 8;
             int colTarget = 8;
 
-            // check how many row & col targets vertically and horizontally
             while(rowTarget >= 0 && gameBoard[rowTarget][8].equals(targetPiece)){
                 rowTarget--;
             }
@@ -499,9 +519,11 @@ public class Board {
             while(colTarget >= 0 && gameBoard[8][colTarget].equals(targetPiece)){
                 colTarget--;
             }
-
-            // if corner-kill (bottom-right) conditions are valid, complete kill process by eliminating all target pieces
-            if(rowTarget < 8 && colTarget < 8 && rowTarget >= 0 && colTarget >= 0 && gameBoard[rowTarget][8].equals(playerPiece) && gameBoard[8][colTarget].equals(playerPiece)){
+            
+            // corner kill (bottom-right: ([8][8])) validation process
+                // ensure row & column targets (occupying instances of enemy players) are in-range of board (from range: 0 to 8) & sandwich condition is true (if final position on row & column targets are player pieces and differentiate from enemy pieces; in orthogonal shape")
+            if(rowTarget >= 0 && colTarget >= 0 && gameBoard[rowTarget][8].equals(playerPiece) && gameBoard[8][colTarget].equals(playerPiece)){
+                // confirm validity of horizontal and vertical indexes referring to values of the desired coordinate (current row & column)
                 if((currentRow == rowTarget && currentCol == 8) || (currentRow == 8 && currentCol == colTarget)){
                     for(int i = rowTarget + 1; i <= 8; i++){
                         if(!gameBoard[i][8].equals("x")){
@@ -522,6 +544,7 @@ public class Board {
         return numCapturable;
     } 
 
+    @Override
     public String toString(){
         return "";
     }

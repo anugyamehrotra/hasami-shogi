@@ -22,9 +22,9 @@ public class Board {
         for(int rowPop = 0; rowPop < 9; rowPop++){
             for(int colPop = 0; colPop < 9; colPop++){
                 if(rowPop == 0){
-                    gameBoard[rowPop][colPop] = "☖"; // White ☖ piece on row 'a'
+                    gameBoard[rowPop][colPop] = "w"; // White ☖ piece on row 'a'
                 } else if (rowPop == 8){
-                    gameBoard[rowPop][colPop] = "☗"; // Black ☗ piece on row 'i'
+                    gameBoard[rowPop][colPop] = "b"; // Black ☗ piece on row 'i'
                 } else {
                     gameBoard[rowPop][colPop] = "x"; // Blank piece (across all rows except 'a' & 'i')
                 }
@@ -50,7 +50,7 @@ public class Board {
     private int parseColumnIndex(Coordinate coordinate){
         // Gather column values & assign valid char value (according to domain of: 'a' to 'i' for nine (9) rows)
         // 'a' = 0, f = '5'
-        return coordinate.getCol().charAt(0) - 'A';
+        return Character.toLowerCase(coordinate.getCol().charAt(0)) - 'a';
     }
 
     /** 
@@ -359,26 +359,29 @@ public class Board {
                 rowTarget++;
             }
 
-            while(rowTarget < 9 && gameBoard[0][colTarget].equals(targetPiece)){
+            while(colTarget < 9 && gameBoard[0][colTarget].equals(targetPiece)){
                 colTarget++;
             }
 
             // if corner-kill (top-left) conditions are valid, complete kill process by eliminating all target pieces
-            if(rowTarget < 9 && colTarget < 9 && gameBoard[rowTarget][0].equals(playerPiece) && gameBoard[0][colTarget].equals(playerPiece)){
-                if((currentRow == rowTarget && currentCol == 0) || (currentCol == 0 && currentCol == colTarget)){
+            if(rowTarget > 0 && colTarget > 0 && rowTarget < 9 && colTarget < 9 && gameBoard[rowTarget][0].equals(playerPiece) && gameBoard[0][colTarget].equals(playerPiece)){
+                if((currentRow == rowTarget && currentCol == 0) || (currentRow == 0 && currentCol == colTarget)){
                     for(int i = 0; i < rowTarget; i++){
-                        gameBoard[i][0] = "x";
-                        numCapturable++;
+                        if(!gameBoard[i][0].equals("x")){
+                            gameBoard[i][0] = "x";
+                            numCapturable++;
+                        }
                     }
 
                     for(int c = 0; c < colTarget; c++){
-                        gameBoard[0][c] = "x";
-                        numCapturable++;
+                        if(!gameBoard[0][c].equals("x")){
+                            gameBoard[0][c] = "x";
+                            numCapturable++;
+                        }
                     }
                 }
             }
         }
-       
         return numCapturable;
     }
 
@@ -408,21 +411,24 @@ public class Board {
             }
 
             // if corner-kill (top-right) conditions are valid, complete kill process by eliminating all target pieces
-            if(rowTarget < 9 && colTarget >= 0 && gameBoard[rowTarget][8].equals(playerPiece) && gameBoard[0][colTarget].equals(playerPiece)){
+            if(rowTarget > 0 && colTarget < 8 && rowTarget < 9 && colTarget >= 0 && gameBoard[rowTarget][8].equals(playerPiece) && gameBoard[0][colTarget].equals(playerPiece)){
                 if((currentRow == rowTarget && currentCol == 8) || (currentRow == 0 && currentCol == colTarget)){
                     for(int i = 0; i < rowTarget; i++){
-                        gameBoard[i][8] = "x";
-                        numCapturable++;
+                        if(!gameBoard[i][8].equals("x")){
+                            gameBoard[i][8] = "x";
+                            numCapturable++;
+                        }
                     }
 
                     for(int c = colTarget + 1; c <= 8; c++){
-                        gameBoard[0][c] = "x";
-                        numCapturable++;
+                        if(!gameBoard[0][c].equals("x")){
+                            gameBoard[0][c] = "x";
+                            numCapturable++;
+                        }
                     }
                 }
             }
         }
-
         return numCapturable;
     }
 
@@ -451,21 +457,24 @@ public class Board {
             }
 
             // if corner-kill (bottom-left) conditions are valid, complete kill process by eliminating all target pieces
-            if(rowTarget >= 0 && colTarget < 9 && gameBoard[rowTarget][0].equals(playerPiece) && gameBoard[8][colTarget].equals(playerPiece)){
+            if(rowTarget < 8 && colTarget > 0 && rowTarget >= 0 && colTarget < 9 && gameBoard[rowTarget][0].equals(playerPiece) && gameBoard[8][colTarget].equals(playerPiece)){
                 if((currentRow == rowTarget && currentCol == 0) || (currentRow == 8 && currentCol == colTarget)){
                     for(int i = rowTarget + 1; i <= 8; i++){
-                        gameBoard[i][0] = "x";
-                        numCapturable++;
+                        if(!gameBoard[i][0].equals("x")){
+                            gameBoard[i][0] = "x";
+                            numCapturable++;
+                        }
                     }
 
                     for(int c = 0; c < colTarget; c++){
-                        gameBoard[8][c] = "x";
-                        numCapturable++;
+                        if(!gameBoard[8][c].equals("x")){
+                            gameBoard[8][c] = "x";
+                            numCapturable++;
+                        }
                     }
                 }
             }
         }
-
         return numCapturable;
     }
 
@@ -494,21 +503,24 @@ public class Board {
             }
 
             // if corner-kill (bottom-right) conditions are valid, complete kill process by eliminating all target pieces
-            if(rowTarget >= 0 && colTarget >= 0 && gameBoard[rowTarget][8].equals(playerPiece) && gameBoard[8][colTarget].equals(playerPiece)){
+            if(rowTarget < 8 && colTarget < 8 && rowTarget >= 0 && colTarget >= 0 && gameBoard[rowTarget][8].equals(playerPiece) && gameBoard[8][colTarget].equals(playerPiece)){
                 if((currentRow == rowTarget && currentCol == 8) || (currentRow == 8 && currentCol == colTarget)){
                     for(int i = rowTarget + 1; i <= 8; i++){
-                        gameBoard[i][8] = "x";
-                        numCapturable++;
+                        if(!gameBoard[i][8].equals("x")){
+                            gameBoard[i][8] = "x";
+                            numCapturable++;
+                        }
                     }
 
                     for(int c = colTarget + 1; c <= 8; c++){
-                        gameBoard[8][c] = "x";
-                        numCapturable++;
+                        if(!gameBoard[8][c].equals("x")){
+                            gameBoard[8][c] = "x";
+                            numCapturable++;
+                        }
                     }
                 }
             }
         }
-
         return numCapturable;
-    }    
+    } 
 }

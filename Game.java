@@ -60,7 +60,9 @@ public class Game {
         Coordinate[] pos = currPlayer.getMove(board);
         board.movePiece(pos[0], pos[1]);
 
-        int captures = board.checkAndKill(pos[1]) + board.checkCornerKill(pos[1]);
+        int captures = 0;
+        captures = board.cornerKill(pos[1]);
+
         currPlayer.addCaptures(captures);
         if (captures > 0) {
             System.out.printf("%s captured %d pieces.\n", currPlayer.getName(), captures);

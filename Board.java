@@ -314,14 +314,14 @@ public class Board {
         }
     }
 
-    public void cornerKill(Coordinate desiredCoordinate){
+    public int cornerKill(Coordinate desiredCoordinate){
         // declare current row & column data of desired coordinate
         int currentRow = parseRowIndex(desiredCoordinate);
         int currentCol = parseColumnIndex(desiredCoordinate);
         String playerPiece = gameBoard[currentRow][currentCol];
 
         if(playerPiece.equals("x")){
-            return;
+            return 0;
         }
 
         // overwrite pieces based on player type
@@ -330,10 +330,13 @@ public class Board {
             targetPiece = "b";
         }
 
-        topLeftCornerKill(currentRow, currentCol, playerPiece, targetPiece);
-        topRightCornerKill(currentRow, currentCol, playerPiece, targetPiece);
-        bottomLeftCornerKill(currentRow, currentCol, playerPiece, targetPiece);
-        bottomRightCornerKill(currentRow, currentCol, playerPiece, targetPiece);
+        int total = 0;
+        total += topLeftCornerKill(currentRow, currentCol, playerPiece, targetPiece);
+        total += topRightCornerKill(currentRow, currentCol, playerPiece, targetPiece);
+        total += bottomLeftCornerKill(currentRow, currentCol, playerPiece, targetPiece);
+        total += bottomRightCornerKill(currentRow, currentCol, playerPiece, targetPiece);
+
+        return total;
     }
 
     /**
@@ -344,8 +347,9 @@ public class Board {
      * @param playerPiece String value of current player piece
      * @param targetPiece String value of target piece(s)
      */
-    private void topLeftCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
+    private int topLeftCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
         // check for corner target (top left: [0][0])
+        int numCapturable = 0;
         if(gameBoard[0][0].equals((targetPiece))){
             int rowTarget = 0;
             int colTarget = 0;
@@ -364,14 +368,18 @@ public class Board {
                 if((currentRow == rowTarget && currentCol == 0) || (currentCol == 0 && currentCol == colTarget)){
                     for(int i = 0; i < rowTarget; i++){
                         gameBoard[i][0] = "x";
+                        numCapturable++;
                     }
 
                     for(int c = 0; c < colTarget; c++){
                         gameBoard[0][c] = "x";
+                        numCapturable++;
                     }
                 }
             }
         }
+       
+        return numCapturable;
     }
 
     /**
@@ -382,8 +390,10 @@ public class Board {
      * @param playerPiece String value of current player piece
      * @param targetPiece String value of target piece(s)
      */
-    private void topRightCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
+    private int topRightCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
         // check for corner target (top right: [0][8])
+        int numCapturable = 0;
+
         if(gameBoard[0][8].equals(targetPiece)){
             int rowTarget = 0;
             int colTarget = 8;
@@ -402,14 +412,18 @@ public class Board {
                 if((currentRow == rowTarget && currentCol == 8) || (currentRow == 0 && currentCol == colTarget)){
                     for(int i = 0; i < rowTarget; i++){
                         gameBoard[i][8] = "x";
+                        numCapturable++;
                     }
 
                     for(int c = colTarget + 1; c <= 8; c++){
                         gameBoard[0][c] = "x";
+                        numCapturable++;
                     }
                 }
             }
         }
+
+        return numCapturable;
     }
 
     /**
@@ -420,8 +434,9 @@ public class Board {
      * @param playerPiece String value of current player piece
      * @param targetPiece String value of target piece(s)
      */
-    private void bottomLeftCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
+    private int bottomLeftCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
         // check for corner target (bottom left: [8][0])
+        int numCapturable = 0;
         if(gameBoard[8][0].equals(targetPiece)){
             int rowTarget = 8;
             int colTarget = 0;
@@ -440,14 +455,18 @@ public class Board {
                 if((currentRow == rowTarget && currentCol == 0) || (currentRow == 8 && currentCol == colTarget)){
                     for(int i = rowTarget + 1; i <= 8; i++){
                         gameBoard[i][0] = "x";
+                        numCapturable++;
                     }
 
                     for(int c = 0; c < colTarget; c++){
                         gameBoard[8][c] = "x";
+                        numCapturable++;
                     }
                 }
             }
         }
+
+        return numCapturable;
     }
 
     /**
@@ -458,8 +477,9 @@ public class Board {
      * @param playerPiece String value of current player piece
      * @param targetPiece String value of target piece(s)
      */
-    private void bottomRightCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
+    private int bottomRightCornerKill(int currentRow, int currentCol, String playerPiece, String targetPiece){
         // check for corner target (bottom right: [8][8])
+        int numCapturable = 0;
         if(gameBoard[8][8].equals(targetPiece)){
             int rowTarget = 8;
             int colTarget = 8;
@@ -478,14 +498,17 @@ public class Board {
                 if((currentRow == rowTarget && currentCol == 8) || (currentRow == 8 && currentCol == colTarget)){
                     for(int i = rowTarget + 1; i <= 8; i++){
                         gameBoard[i][8] = "x";
+                        numCapturable++;
                     }
 
                     for(int c = colTarget + 1; c <= 8; c++){
                         gameBoard[8][c] = "x";
+                        numCapturable++;
                     }
                 }
             }
         }
-    }
-        
+
+        return numCapturable;
+    }    
 }

@@ -545,6 +545,11 @@ public class Board {
 
     @Override
     public String toString(){
+
+        int rowNum = 9;
+
+        char colChar = 'a';
+        
         return "";
     }
 }

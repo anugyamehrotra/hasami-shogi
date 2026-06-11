@@ -543,13 +543,36 @@ public class Board {
         return numCapturable;
     } 
 
-    @Override
-    public String toString(){
-
+    public void displayBoard(){
         int rowNum = 9;
-
         char colChar = 'a';
-        
-        return "";
+
+        for(int col = 0; col < 9; col++){
+            System.out.print(rowNum + " ");
+            rowNum--;
+        }
+        System.out.println();
+
+        for(int row = 0; row < 9; row++){
+            for(int c = 0; c < 9; c++){
+                if(gameBoard[row][c].equals("w")){
+                    System.out.print("☖ ");
+                } else if (gameBoard[row][c].equals("b")){
+                    System.out.print("☗ ");
+                } else if (gameBoard[row][c].equals("x")){
+                    System.out.print("  "); 
+                }
+            }
+
+            System.out.println(colChar);
+            colChar++;
+        }
     }
+
+    public static void main(String[] args){
+        Board testBoard = new Board();
+        testBoard.displayBoard();
+    }
+
+    
 }

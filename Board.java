@@ -142,7 +142,6 @@ public class Board {
         }
 
         return true;
-
     }
 
     /**
@@ -495,7 +494,7 @@ public class Board {
         }
         return numCapturable;
     }
-
+  
     /**
      * Method to dynamically search instances of enemy pieces from the bottom-right corner 
      * Search and log instances of enemy targets (of player) from the bottom-right corner ([8][8]), validate valid corner-kill condition, and replace all enemy instances with a "killed" piece

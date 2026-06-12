@@ -553,6 +553,11 @@ public class Board {
         }
         System.out.println();
 
+        for(int col = 0; col < 9; col++){
+            System.out.print("― ");
+        }
+        System.out.println();
+
         for(int row = 0; row < 9; row++){
             for(int c = 0; c < 9; c++){
                 if(gameBoard[row][c].equals("w")){
@@ -564,7 +569,7 @@ public class Board {
                 }
             }
 
-            System.out.println(colChar);
+            System.out.println(" | " + colChar );
             colChar++;
         }
     }

@@ -14,10 +14,10 @@ class GameButton extends JButton{
     void changeColor(String piece){
         if (piece.equals("b")){
             setText("●");
-            setForeGround(Color.BLACK);
+            // setForeGround(Color.BLACK);
         }else if (piece.equals("w")){
             setText("o");
-            setForeground(Color.WHITE);
+            // setForeground(Color.WHITE);
         }
     }
 }

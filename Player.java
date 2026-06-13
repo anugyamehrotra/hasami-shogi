@@ -85,12 +85,21 @@ class Player {
     
 
     private Coordinate getValidCoordinateInput(Scanner userInput, String inputType){
-        String moveInput = "";
-        while(!moveInput.matches("[1-9][a-iA-I]")){
+        while(true){
             System.out.println(inputType);
-            moveInput = userInput.next();
-        }
-        return Coordinate.parseString(moveInput);
+            String coordinateMoveInput = userInput.next().toLowerCase();
+
+            if (coordinateMoveInput.equals("exit") || coordinateMoveInput.equals("quit") || coordinateMoveInput.equals("close")){
+                System.out.println("\nGoodbye!");
+                System.exit(0);
+            }
+
+            if (coordinateMoveInput.matches("[1-9][a-iA-I]")){
+            return Coordinate.parseString(coordinateMoveInput);
+            }
+
+            System.out.println("Invalid input! Please enter a coordinate (e.g 5I, 3A, etc) or 'quit' to exit game. \n");
+        }          
     }
     
     Coordinate[] getMove(Board board) {

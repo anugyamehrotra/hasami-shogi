@@ -19,7 +19,7 @@ public class Game {
         while (!gameOver()) {
             board.displayBoard();
            
-            System.out.println( currPlayer.getName() + "'s turn");
+            System.out.println( currPlayer.getName() + "'s TURN: \n");
 
             takeTurn(currPlayer);
 

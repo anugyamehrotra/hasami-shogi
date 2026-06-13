@@ -45,7 +45,7 @@ public class Main {
                         break;
                     } else if(userInput.equals("2") || userInput.equals("two") || userInput.equals("second") || userInput.equals("computer") || userInput.equals("pc")){
                         player1 = new Player("Player 1", "b", false);
-                        player2 = new Player("Player 2", "w", true);
+                        player2 = new Player("Computer", "w", true);
                         break;
                     }
 

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -12,23 +13,13 @@ public class Game {
     }
 
     void startGame() {
-        System.out.println("---- Hasami Shogi ----- \n");
-        System.out.println("Enter (1) for player vs. player or (2) for player vs. computer");
-
-        Scanner input = new Scanner(System.in);
-        int choice = input.nextInt();
-        if (choice == 1) {
-            player1 = new Player("Player 1", "b", false);
-            player2 = new Player("Player 2", "w", false);
-        } else {
-            player1 = new Player("Player 1", "b", false);
-            player2 = new Player("Computer", "w", true);
-        }
-
+        System.out.println("BOARD -- HASAMI SHOGI © 2026 \n");
+       
         Player currPlayer = player1;
         while (!gameOver()) {
-            System.out.println(board);
-            System.out.println(currPlayer.getName() + "'s turn");
+            board.displayBoard();
+           
+            System.out.println( currPlayer.getName() + "'s turn");
 
             takeTurn(currPlayer);
 
@@ -39,7 +30,7 @@ public class Game {
             }
         }
 
-        System.out.println(board);
+        board.displayBoard();
         Player winner = player1;
         if (player1.captureCount() >= 5) {
             winner = player1;
@@ -48,7 +39,6 @@ public class Game {
         }
 
         System.out.println(winner.getName() + " is the winner of this game!");
-
     }
 
     void takeTurn(Player currPlayer) {
@@ -56,12 +46,31 @@ public class Game {
         board.movePiece(pos[0], pos[1]);
 
         int captures = 0;
-        captures = board.cornerKill(pos[1]);
-        
-        currPlayer.addCaptures(captures);
-        if (captures > 0) {
-            System.out.printf("%s captured %d pieces.\n", currPlayer.getName(), captures);
+        captures += board.checkAndKill(pos[1]);
+        captures += board.cornerKill(pos[1]);
+
+        String enemyPlayerPiece = "";
+        String enemyColorName = "";
+
+        if (currPlayer.getColour().equals("b")) {
+            enemyPlayerPiece = "☖";
+            enemyColorName = "WHITE";
+        } else {
+            enemyPlayerPiece = "☗";
+            enemyColorName = "BLACK";
         }
+
+        if(captures > 0){
+            currPlayer.addCaptures(captures);
+            System.out.printf("\n*** %s CAPTURED %d PIECE(S)! ***\n", currPlayer.getName(), captures);
+        }
+
+        ArrayList<String> capturedPiecesList = new ArrayList<>();
+        for(int i = 0; i < currPlayer.captureCount(); i ++){
+            capturedPiecesList.add(enemyPlayerPiece);
+        }
+
+        System.out.println("CAPTURED " + enemyColorName + " PIECES: " + capturedPiecesList + "\n");
     }
 
     boolean gameOver() {

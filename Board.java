@@ -29,28 +29,27 @@ public class Board {
             }
         }
     }
+
+    /**
+     * Method to return the inner-column index of a Coordinate on a Board
+     * @param coordinate a coordinate on the Hasami Shogi board
+     * @return an Integer index value for the specific column of the coordinate (based on column domain of 9-1; where nine (9) = 0 (index) & one (1) = 8 (index))
+     */
+    private int parseColumnIndex(Coordinate coordinate){
+        // Gather column values & assign valid int value (according to domain of: 9-1 for nine rows)
+        return 9 - coordinate.getCol();
+    }
  
     /**
      * Method to return the inner-row index of a Coordinate on a Board
      * @param coordinate a coordinate on the Hasami Shogi board
-     * @return an Integer index value for the specific row of the coordinate (based on row-domain of 9-1; where nine (9) = 0 & one (1) = 8)
+     * @return an Integer index value for the specific row of the coordinate (based on row-domain of a-i; where 'a' = 0 (index) & 'i' = 8 (index))
      */
     private int parseRowIndex(Coordinate coordinate){
-        return 9 - coordinate.getRow();
+        return coordinate.getRow().charAt(0) - 'a';
 
     }
     
-    /**
-     * Method to return the inner-column index of a Coordinate on a Board
-     * @param coordinate a coordinate on the Hasami Shogi board
-     * @return an Integer index value for the specific row of the coordinate (based on ASCII values of characters & domain of 'a' to 'i'; where )
-     */
-    private int parseColumnIndex(Coordinate coordinate){
-        // Gather column values & assign valid char value (according to domain of: 'a' to 'i' for nine (9) rows)
-        // 'a' = 0, f = '5'
-        return Character.toLowerCase(coordinate.getCol().charAt(0)) - 'a';
-    }
-
     /** 
      * Method to get the String value of a Coordinate
      * @param coordinate a Coordinate object on the Hasami Shogi board
@@ -171,7 +170,7 @@ public class Board {
      * Dynamically look through board from desired location (and overwrite player pieces based on player type) from four (4) directions & remove targets accordingly
      * @param desiredCoordinate a Coordinate object of the current player's desired location
      */
-    public void checkAndKill(Coordinate desiredCoordinate){
+    public int checkAndKill(Coordinate desiredCoordinate){
 
         // declare current row & column data of desired coordinate
         int rowTarget = parseRowIndex(desiredCoordinate);
@@ -179,7 +178,7 @@ public class Board {
         String playerPiece = gameBoard[rowTarget][colTarget];
 
         if(playerPiece.equals("x")){
-            return;
+            return 0 ;
         }
 
         // handle overwriting of playerPieces based on player turns
@@ -188,10 +187,13 @@ public class Board {
             targetPiece = "b";
         }
 
-        checkUpward(rowTarget, colTarget, playerPiece, targetPiece);
-        checkDownward(rowTarget, colTarget, playerPiece, targetPiece);
-        checkRightside(rowTarget, colTarget, playerPiece, targetPiece);
-        checkLeftside(rowTarget, colTarget, playerPiece, targetPiece);
+        int total = 0;
+        total += checkUpward(rowTarget, colTarget, playerPiece, targetPiece);
+        total += checkDownward(rowTarget, colTarget, playerPiece, targetPiece);
+        total += checkRightside(rowTarget, colTarget, playerPiece, targetPiece);
+        total += checkLeftside(rowTarget, colTarget, playerPiece, targetPiece);
+
+        return total;
     }
 
     /** 
@@ -201,7 +203,7 @@ public class Board {
      * @param playerPiece String value of current player piece
      * @param targetPiece String value of target piece(s)
      */
-    private void checkUpward(int rowTarget, int colTarget, String playerPiece, String targetPiece){
+    private int checkUpward(int rowTarget, int colTarget, String playerPiece, String targetPiece){
         int currentRow = rowTarget - 1;
         int currentCol = colTarget;
 
@@ -222,7 +224,9 @@ public class Board {
                 gameBoard[removeRow][colTarget] = "x";
                 removeRow--;
             }
+            return numCapturable;
         }
+        return 0;
     }
 
     /** 
@@ -232,7 +236,7 @@ public class Board {
      * @param playerPiece String value of current player piece
      * @param targetPiece String value of target piece(s)
      */
-    private void checkDownward(int rowTarget, int colTarget, String playerPiece, String targetPiece){
+    private int checkDownward(int rowTarget, int colTarget, String playerPiece, String targetPiece){
         int currentRow = rowTarget + 1; 
         int currentCol = colTarget; 
 
@@ -253,7 +257,9 @@ public class Board {
                 gameBoard[removeRow][colTarget] = "x";
                 removeRow++;
             }
+            return numCapturable;
         }
+        return 0;
     }
 
     /** 
@@ -263,7 +269,7 @@ public class Board {
      * @param playerPiece String value of current player piece
      * @param targetPiece String value of target piece(s)
      */
-    private void checkLeftside(int rowTarget, int colTarget, String playerPiece, String targetPiece){
+    private int checkLeftside(int rowTarget, int colTarget, String playerPiece, String targetPiece){
         int currentRow = rowTarget;
         int currentCol = colTarget -1;
 
@@ -284,7 +290,9 @@ public class Board {
                 gameBoard[rowTarget][removeCol] = "x";
                 removeCol--;
             }
+            return numCapturable;
         }
+        return 0;
     }
 
     /** 
@@ -294,7 +302,7 @@ public class Board {
      * @param playerPiece String value of current player piece
      * @param targetPiece String value of target piece(s)
      */
-    private void checkRightside(int rowTarget, int colTarget, String playerPiece, String targetPiece){
+    private int checkRightside(int rowTarget, int colTarget, String playerPiece, String targetPiece){
         int currentRow = rowTarget;
         int currentCol = colTarget + 1;
 
@@ -315,7 +323,9 @@ public class Board {
                 gameBoard[rowTarget][removeCol] = "x";
                 removeCol++;
             }
+            return numCapturable;
         }
+        return 0;
     }
 
     /**
@@ -543,6 +553,10 @@ public class Board {
         return numCapturable;
     } 
 
+    /**
+     * Method to dynamically display a String-visual representation of a Hasami Shogi Board
+     * Dynamically builds a String representation of the board by assigning current player qualities & pieces to ASCII representation
+     */
     public void displayBoard(){
         int rowNum = 9;
         char colChar = 'a';
@@ -565,19 +579,18 @@ public class Board {
                 } else if (gameBoard[row][c].equals("b")){
                     System.out.print("☗ ");
                 } else if (gameBoard[row][c].equals("x")){
-                    System.out.print("  "); 
+                    System.out.print(". "); 
                 }
             }
 
             System.out.println(" | " + colChar );
             colChar++;
         }
+        System.out.println();
     }
 
     public static void main(String[] args){
         Board testBoard = new Board();
         testBoard.displayBoard();
     }
-
-    
 }

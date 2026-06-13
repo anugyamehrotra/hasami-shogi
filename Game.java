@@ -13,14 +13,17 @@ public class Game {
     }
 
     void startGame() {
-        System.out.println("BOARD -- HASAMI SHOGI © 2026 \n");
+        System.out.println("HASAMI SHOGI © 2026 \n");
        
         Player currPlayer = player1;
         while (!gameOver()) {
             board.displayBoard();
+
+            displayPlayerCaptures(player1);
+            displayPlayerCaptures(player2);
+
            
             System.out.println( currPlayer.getName() + "'s TURN: \n");
-
             takeTurn(currPlayer);
 
             if (currPlayer == player1) {
@@ -30,7 +33,6 @@ public class Game {
             }
         }
 
-        board.displayBoard();
         Player winner = player1;
         if (player1.captureCount() >= 5) {
             winner = player1;
@@ -39,6 +41,26 @@ public class Game {
         }
 
         System.out.println(winner.getName() + " is the winner of this game!");
+    }
+
+    private void displayPlayerCaptures(Player player){
+        String colorName;
+        String enemyPlayerPiece;
+
+        if (player.getColour().equals("w")) {
+            colorName = "White";
+            enemyPlayerPiece = "☗";
+        } else {
+            colorName = "Black";
+            enemyPlayerPiece = "☖";
+        }
+
+        ArrayList<String> capturedPiecesList = new ArrayList<>();
+        for(int i = 0; i < player.captureCount(); i ++){
+            capturedPiecesList.add(enemyPlayerPiece);
+        }
+
+        System.out.println(colorName.toUpperCase() + "'s CAPTURED PIECES: " + capturedPiecesList + "\n");
     }
 
     void takeTurn(Player currPlayer) {
@@ -52,25 +74,10 @@ public class Game {
         String enemyPlayerPiece = "";
         String enemyColorName = "";
 
-        if (currPlayer.getColour().equals("b")) {
-            enemyPlayerPiece = "☖";
-            enemyColorName = "WHITE";
-        } else {
-            enemyPlayerPiece = "☗";
-            enemyColorName = "BLACK";
-        }
-
         if(captures > 0){
             currPlayer.addCaptures(captures);
             System.out.printf("\n*** %s CAPTURED %d PIECE(S)! ***\n", currPlayer.getName(), captures);
         }
-
-        ArrayList<String> capturedPiecesList = new ArrayList<>();
-        for(int i = 0; i < currPlayer.captureCount(); i ++){
-            capturedPiecesList.add(enemyPlayerPiece);
-        }
-
-        System.out.println("CAPTURED " + enemyColorName + " PIECES: " + capturedPiecesList + "\n");
     }
 
     boolean gameOver() {

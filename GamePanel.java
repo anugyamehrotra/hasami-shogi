@@ -13,6 +13,15 @@ class GamePanel extends JPanel{
             for (int j = 0; j < 9; j ++){
                 buttons[i][j] = new JButton();
             }
+<<<<<<< HEAD
+=======
+
+            
+        }
+        this.grid = buttons;
+    }
+
+>>>>>>> 5bb4269d3bbf341da6b448520b5e76962cf55306
 
             
         }

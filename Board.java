@@ -593,4 +593,8 @@ public class Board {
         Board testBoard = new Board();
         testBoard.displayBoard();
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 5bb4269d3bbf341da6b448520b5e76962cf55306

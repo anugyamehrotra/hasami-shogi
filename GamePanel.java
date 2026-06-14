@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class GamePanel extends JPanel implements ActionListener {
+public class GamePanel extends JPanel  {
+
+    // GamePanel Attributes
     private Board board;
     private Player player1;
     private Player player2;
@@ -13,18 +13,29 @@ public class GamePanel extends JPanel implements ActionListener {
     private GameButton[][] grid;
     private Coordinate chosenCoordinate;
 
-    private JLabel turnLabel;
+    private JLabel playerTurnLabel;
     private JLabel playerOneCaptures;
     private JLabel playerTwoCaptures;
 
-    public GamePanel(Board board, Player player1, Player player2, boolean isComputerPlayerActive, JLabel turnLabel, JLabel playerOneCaptures, JLabel playerTwoCaptures) {
+    /**
+     * Constructor for GamePanel GUI in Hasami Shogi GUI Version
+     * Sets up the main visual game, links backend methods & logic to GUI, and handles & performs user action
+     * @param board board Object 
+     * @param player1
+     * @param player2
+     * @param isComputerPlayerActive
+     * @param playerTurnLabel
+     * @param playerOneCaptures
+     * @param playerTwoCaptures
+     */
+    public GamePanel(Board board, Player player1, Player player2, boolean isComputerPlayerActive, JLabel playerTurnLabel, JLabel playerOneCaptures, JLabel playerTwoCaptures) {
         this.board = board;
         this.player1 = player1;
         this.player2 = player2;
         this.currPlayer = player1; 
         this.isComputerPlayerActive = isComputerPlayerActive;
         
-        this.turnLabel = turnLabel;
+        this.playerTurnLabel = playerTurnLabel;
         this.playerOneCaptures = playerOneCaptures;
         this.playerTwoCaptures = playerTwoCaptures;
         
@@ -39,7 +50,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 Coordinate populCoordinate = new Coordinate(cols + 1, String.valueOf((char) ('a' + rows)));
                 
                 GameButton gameButton = new GameButton(populCoordinate);
-                gameButton.addActionListener(this);
+                gameButton.addActionListener(e-> performMovement(gameButton));
                 
                 this.grid[rows][cols] = gameButton;
                 this.add(gameButton); 
@@ -48,6 +59,9 @@ public class GamePanel extends JPanel implements ActionListener {
         updatePanel();
     }
 
+    /**
+     * 
+     */
     public void updatePanel() {
         for (int rows = 0; rows < 9; rows++) {
             for (int cols = 0; cols < 9; cols++) {
@@ -59,8 +73,11 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+
+    /**
+     * @param userActionButton
+     */
+    private void performMovement(GameButton userActionButton){
         if(isGameOver()){
             return;
         }
@@ -69,49 +86,39 @@ public class GamePanel extends JPanel implements ActionListener {
             return;
         }
 
-        GameButton clickedgameButton = null;
-        Coordinate clickedCoord = null;
+        Coordinate desiredCoordinate = userActionButton.getCoordinate();
 
-        for (int rows = 0; rows < 9; rows++) {
-            for (int cols = 0; cols < 9; cols++) {
-                if (e.getSource() == grid[rows][cols]) {
-                    clickedgameButton = grid[rows][cols];
-                    clickedCoord = clickedgameButton.getCoordinate();
-                    break;
-                }
-            }
-        }
-
-        if (clickedgameButton == null || clickedCoord == null) {
-            return; 
-        }
-
-        if (chosenCoordinate == null) {
-            if (board.getPiece(clickedCoord).equals(currPlayer.getColour())) {
-                chosenCoordinate = clickedCoord;
-                clickedgameButton.setBackground(new Color(214, 185, 44)); 
+        if(chosenCoordinate == null){
+            if(board.getPiece(desiredCoordinate).equals(currPlayer.getColour())){
+                chosenCoordinate = desiredCoordinate; 
+                userActionButton.setBackground(new Color(214, 185, 44));
             }
         } else {
-            if (chosenCoordinate.toString().equals(clickedCoord.toString())) {
+            if(String.valueOf(chosenCoordinate).equals(String.valueOf(desiredCoordinate))){
                 chosenCoordinate = null;
                 updatePanel();
             } else {
-                if (board.canMove(chosenCoordinate, clickedCoord)) {
-                    movePiece(chosenCoordinate, clickedCoord);
+                if(board.canMove(chosenCoordinate, desiredCoordinate)){
+                    movePiece(chosenCoordinate, desiredCoordinate);
                 } else {
                     chosenCoordinate = null;
+                    JOptionPane.showMessageDialog(this, "Invalid piece movement. Remember, you can only move orthogonally!");
                     updatePanel();
                 }
-            }
+            }   
         }
     }
 
-    private void movePiece(Coordinate start, Coordinate end) {
-        board.movePiece(start, end);
+    /**
+     * @param currentCoordinate
+     * @param desiredCoordinate
+     */
+    private void movePiece(Coordinate currentCoordinate, Coordinate desiredCoordinate) {
+        board.movePiece(currentCoordinate, desiredCoordinate);
 
         int captures = 0;
-        captures += board.checkAndKill(end);
-        captures += board.cornerKill(end);
+        captures += board.checkAndKill(desiredCoordinate);
+        captures += board.cornerKill(desiredCoordinate);
 
         if(captures > 0){
             currPlayer.addCaptures(captures);
@@ -122,10 +129,13 @@ public class GamePanel extends JPanel implements ActionListener {
         swapTurn();
     }
 
+    /**
+     * 
+     */
     private void swapTurn() {
         currPlayer = (currPlayer == player1) ? player2 : player1;
         
-        turnLabel.setText("Turn: " + currPlayer.getName());
+        playerTurnLabel.setText("Turn: " + currPlayer.getName());
         playerOneCaptures.setText("White Captures: " + player1.captureCount());
         playerTwoCaptures.setText("Black Captures: " + player2.captureCount());
 
@@ -145,14 +155,24 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * 
+     */
     private void computerMove() {
-        Coordinate[] compMove = currPlayer.computerMove(board);
-        if (compMove != null && compMove.length == 2) {
-            movePiece(compMove[0], compMove[1]);
+        Coordinate[] computerMove = currPlayer.computerMove(board);
+
+        if(board.canMove(computerMove[0], computerMove[1])){
+            movePiece(computerMove[0], computerMove[1]);
         }
     }
 
+    /**
+     * @return
+     */
     private boolean isGameOver() {
         return player1.captureCount() >= 5 || player2.captureCount() >= 5;
     }
 }
+
+// Sources
+// https://docs.oracle.com/javase/8/docs/api/java/awt/event/ActionListener.html --> Add Action Listener & Handle Functions

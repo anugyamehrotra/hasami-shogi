@@ -21,7 +21,7 @@ public class testCases {
 
         System.out.println(Arrays.deepToString(boardTest));
 
-        Board board = new Board()
+        Board board = new Board();
 
         //getPiece
         System.out.println(board.getPiece(new Coordinate(3, "a")));
@@ -62,9 +62,7 @@ public class testCases {
         Player test3 = new Player("P2", "b", false);
         Game game = new Game(test2, test3);
         System.out.println(game.gameOver());
-
-        
-        
+  
 
 
     }

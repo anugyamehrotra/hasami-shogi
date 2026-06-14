@@ -47,12 +47,12 @@ class GameButton extends JButton{
      */
     private ImageIcon resizeImageIcon (ImageIcon pieceImages){
         Image img = pieceImages.getImage();
-        Image resizedImage = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        Image resizedImage = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
 
     // Sources:
-    // https://docs.oracle.com/javase/8/docs/api/java/awt/Image.html
-    // https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
-    // https://stackoverflow.com/questions/7252983/resizing-image-java-getscaledinstance
+    // https://docs.oracle.com/javase/8/docs/api/java/awt/Image.html --> Image Handling & Processing
+    // https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html --> Image Icon Implementation
+    // https://stackoverflow.com/questions/7252983/resizing-image-java-getscaledinstance --> Scaling Images Via Function
 }

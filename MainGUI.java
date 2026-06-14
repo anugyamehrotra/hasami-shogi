@@ -40,8 +40,27 @@ public class MainGUI {
         sideGameFrame.add(playerTwoCaptures);
 
         GamePanel boardPanel = new GamePanel(board, player1, player2, isComputerPlayerActive, turnLabel, playerOneCaptures, playerTwoCaptures);
-        
-        mainGameFrame.add(boardPanel);
+
+        JPanel topColNumsJPanel = new JPanel(new GridLayout(1, 9));
+        for(int cols = 9; cols >= 1; cols--){
+            topColNumsJPanel.add(new JLabel(String.valueOf(cols), SwingConstants.CENTER));
+        }
+
+        JPanel sideRowCharJPanel = new JPanel(new GridLayout(9, 1));
+        for(char chars = 'a'; chars <= 'i'; chars++){
+            sideRowCharJPanel.add(new JLabel("  " + chars + "  "));
+        }
+
+        JPanel topBoardInfo = new JPanel(new BorderLayout());
+        topBoardInfo.add(new JLabel(BorderLayout.EAST)); 
+        topBoardInfo.add(topColNumsJPanel, BorderLayout.CENTER);
+
+        JPanel sideBoardInfo = new JPanel(new BorderLayout());
+        sideBoardInfo.add(topBoardInfo, BorderLayout.NORTH);
+        sideBoardInfo.add(sideRowCharJPanel, BorderLayout.EAST); 
+        sideBoardInfo.add(boardPanel, BorderLayout.CENTER);      
+
+        mainGameFrame.add(sideBoardInfo, BorderLayout.CENTER); 
         mainGameFrame.add(sideGameFrame, BorderLayout.EAST);
 
         mainGameFrame.setSize(800, 600); 
@@ -51,6 +70,9 @@ public class MainGUI {
 
 // Sources:
 // https://docs.oracle.com/javase/8/docs/api/javax/swing/JFrame.html -- > Java Frames
+// https://stackoverflow.com/questions/30518728/how-does-the-sizing-of-a-jframe-actually-work --> JFrame Sizing
 // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html --> Open Dialogue
-// https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html -- > Box Layout & Sizing
+// https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html -- > Box Layout Orientation & Sizing
+// https://docs.oracle.com/javase/tutorial/uiswing/layout/grid.html -- > GridLayout Orientation
+// https://docs.oracle.com/javase/8/docs/api/java/awt/BorderLayout.html --> Border Layout Orientation
 

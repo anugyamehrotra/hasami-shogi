@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Game {
     private Player player1;
@@ -22,7 +21,6 @@ public class Game {
             displayPlayerCaptures(player1);
             displayPlayerCaptures(player2);
 
-           
             System.out.println( currPlayer.getName() + "'s TURN: \n");
             takeTurn(currPlayer);
 
@@ -41,6 +39,7 @@ public class Game {
         }
 
         System.out.println(winner.getName() + " is the winner of this game!");
+        board.displayBoard();
     }
 
     private void displayPlayerCaptures(Player player){
@@ -70,9 +69,6 @@ public class Game {
         int captures = 0;
         captures += board.checkAndKill(pos[1]);
         captures += board.cornerKill(pos[1]);
-
-        String enemyPlayerPiece = "";
-        String enemyColorName = "";
 
         if(captures > 0){
             currPlayer.addCaptures(captures);

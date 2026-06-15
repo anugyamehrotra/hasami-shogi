@@ -139,7 +139,7 @@ public class GamePanel extends JPanel  {
     }
 
     /**
-     * Method to dynamically organize, activate, and update active players, score counts & labels, and winner validity in Hasami Shogi Game
+     * Method to dynamically organize, activate, and update active players, score count labels, and winner validity in Hasami Shogi Game
      */
     private void swapTurn() {
         if(currPlayer == player1){

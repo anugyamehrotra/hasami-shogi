@@ -13,20 +13,21 @@ public class GamePanel extends JPanel  {
     private GameButton[][] grid;
     private Coordinate chosenCoordinate;
 
-    private JLabel playerTurnLabel;
+    // JLabels Attributes 
+    private JLabel playerTurnLabel; 
     private JLabel playerOneCaptures;
     private JLabel playerTwoCaptures;
 
     /**
      * Constructor for GamePanel GUI in Hasami Shogi GUI Version
      * Sets up the main visual game, links backend methods & logic to GUI, and handles & performs user action
-     * @param board board Object 
-     * @param player1
-     * @param player2
-     * @param isComputerPlayerActive
-     * @param playerTurnLabel
-     * @param playerOneCaptures
-     * @param playerTwoCaptures
+     * @param board board Object containing pieces of Hasami Shogi Game
+     * @param player1 first player interacting in Hasami Shogi Game (White)
+     * @param player2 second player interacting in Hasami Shogi Game (Black)
+     * @param isComputerPlayerActive boolean validity of active computer player in Hasmi Shogi Game 
+     * @param playerTurnLabel text label attribute of player turns in side-bar GUI in game interface
+     * @param playerOneCaptures text label attribute of player captures in side-bar GUI in game interface
+     * @param playerTwoCaptures text label attribute of player captures in side-bar GUI in game interface
      */
     public GamePanel(Board board, Player player1, Player player2, boolean isComputerPlayerActive, JLabel playerTurnLabel, JLabel playerOneCaptures, JLabel playerTwoCaptures) {
         this.board = board;
@@ -60,7 +61,8 @@ public class GamePanel extends JPanel  {
     }
 
     /**
-     * 
+     * Method to dynamically update & refresh GUI interface grid to match instantaneous back-end game state(s) 
+     * Sets pieces, image icons, and background-color information according to backend game state
      */
     public void updatePanel() {
         for (int rows = 0; rows < 9; rows++) {
@@ -75,25 +77,30 @@ public class GamePanel extends JPanel  {
 
 
     /**
-     * @param userActionButton
+     * Method to dynamically handle player piece selection/de-selection & movement across Hasami Shogi Game Board
+     * Handles valid selection/de-selection, movements, and piece interaction in game, ensuring robust, smooth gameplay
+     * @param userActionButton GameButton Object to describe specific button interacted/clicked on Hasami Shogi grid
      */
     private void performMovement(GameButton userActionButton){
         if(isGameOver()){
             return;
         }
 
+        // avoid all conflict between manual player movement & computer movement
         if(isComputerPlayerActive && currPlayer == player2){
             return;
         }
 
         Coordinate desiredCoordinate = userActionButton.getCoordinate();
 
+        // handle invalid final destination
         if(chosenCoordinate == null){
             if(board.getPiece(desiredCoordinate).equals(currPlayer.getColour())){
                 chosenCoordinate = desiredCoordinate; 
                 userActionButton.setBackground(new Color(214, 185, 44));
             }
         } else {
+            // ensure if piece selected is same, ignore case & return to original position while displayed on board
             if(String.valueOf(chosenCoordinate).equals(String.valueOf(desiredCoordinate))){
                 chosenCoordinate = null;
                 updatePanel();
@@ -102,7 +109,7 @@ public class GamePanel extends JPanel  {
                     movePiece(chosenCoordinate, desiredCoordinate);
                 } else {
                     chosenCoordinate = null;
-                    JOptionPane.showMessageDialog(this, "Invalid piece movement. Remember, you can only move orthogonally!");
+                    JOptionPane.showMessageDialog(this, "Invalid piece movement. Pieces must move orthogonally and cannot be placed on other pieces.");
                     updatePanel();
                 }
             }   
@@ -110,8 +117,10 @@ public class GamePanel extends JPanel  {
     }
 
     /**
-     * @param currentCoordinate
-     * @param desiredCoordinate
+     * Method to physically move Hasami Shogi pieces across game board
+     * Selects valid current & desired coordinates and move pieces accordingly, tracks & records captures, and passes turns while visually displaying all changes
+     * @param currentCoordinate Coordinate Object for current coordinate position selected by user in Hasami Shogi Game 
+     * @param desiredCoordinate Coordinate Object for desired coordinate position chosen by user in Hasami Shogi Game
      */
     private void movePiece(Coordinate currentCoordinate, Coordinate desiredCoordinate) {
         board.movePiece(currentCoordinate, desiredCoordinate);
@@ -124,17 +133,21 @@ public class GamePanel extends JPanel  {
             currPlayer.addCaptures(captures);
         }
 
-        chosenCoordinate = null;
+        chosenCoordinate = null; // set null for 'unclicked' behavior, where once clicked, chosen coord is set to null after movement to continue game
         updatePanel();
         swapTurn();
     }
 
     /**
-     * 
+     * Method to dynamically organize, activate, and update active players, score counts & labels, and winner validity in Hasami Shogi Game
      */
     private void swapTurn() {
-        currPlayer = (currPlayer == player1) ? player2 : player1;
-        
+        if(currPlayer == player1){
+            currPlayer = player2;
+        } else {
+            currPlayer = player1;
+        }
+                
         playerTurnLabel.setText("Turn: " + currPlayer.getName());
         playerOneCaptures.setText("White Captures: " + player1.captureCount());
         playerTwoCaptures.setText("Black Captures: " + player2.captureCount());
@@ -150,13 +163,15 @@ public class GamePanel extends JPanel  {
             return;
         }
 
+        // avoid all conflict between manual player movement & computer movement
         if (isComputerPlayerActive && currPlayer == player2) {
             computerMove();
         }
     }
 
     /**
-     * 
+     * Method to randomly move pieces on behalf of a 'Computer' player in Hasami Shogi Game
+     * Moves pieces randomly based on backend Computer Movement logic & algorithm
      */
     private void computerMove() {
         Coordinate[] computerMove = currPlayer.computerMove(board);
@@ -167,7 +182,8 @@ public class GamePanel extends JPanel  {
     }
 
     /**
-     * @return
+     * Method to return boolean validity of Winning Game State in Hasami Shogi
+     * @return boolean validity if five (5) or more pieces are captured by either players, satisfying the win condition, across the game
      */
     private boolean isGameOver() {
         return player1.captureCount() >= 5 || player2.captureCount() >= 5;

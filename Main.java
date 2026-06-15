@@ -22,9 +22,8 @@ public class Main {
 
 
         Scanner mainUserMenuScanner = new Scanner(System.in);
-
+ 
         while(true){
-            System.out.println("\nWelcome to HASAMI SHOGI © 2026 ");
             System.out.println("Please select your choice: TAKE ME TO MENU (ENTER 'PLAY' or 'START') | TAKE ME TO RULES (ENTER 'RULES' or 'HELP' | OR EXIT (ENTER 'EXIT' OR 'QUIT') ");
 
             String menuOption = mainUserMenuScanner.nextLine().trim().toLowerCase();
@@ -49,7 +48,7 @@ public class Main {
                         break;
                     }
 
-                    System.out.println("Invalid mode input!! Please try again with choices: PLAYER V. PLAYER (1) | PLAYER V. COMPUTER (2): \n ");
+                    System.out.println("Invalid mode input! Please try again with choices: PLAYER V. PLAYER (1) | PLAYER V. COMPUTER (2): \n ");
                 }
                 
 

@@ -558,6 +558,8 @@ public class Board {
      * Dynamically builds a String representation of the board by assigning current player qualities & pieces to ASCII representation
      */
     public void displayBoard(){
+        System.out.println("YOUR HASAMI SHOGI GAME BOARD: \n");
+
         int rowNum = 9;
         char colChar = 'a';
 

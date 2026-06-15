@@ -34,7 +34,7 @@ public class Game {
             displayPlayerCaptures(player1); 
             displayPlayerCaptures(player2);
 
-            System.out.println( currPlayer.getName() + "'s TURN: \n");
+            System.out.println( currPlayer.getName() + "'s TURN: ");
             takeTurn(currPlayer);
 
             if (currPlayer == player1) {

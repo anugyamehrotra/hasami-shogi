@@ -176,7 +176,7 @@ class Player {
                 ArrayList<String> activePlayerPieces = findActivePlayerPieces(board);
 
                 // display arrayList of where player pieces are located
-                System.out.println(this.name + "'s pieces are located at: " + activePlayerPieces);
+                System.out.println(this.name + "'s pieces are located at: " + activePlayerPieces + "\n");
                 Coordinate startCoordinate = getValidCoordinateInput(moveInputs, "Select a starting coordinate to move (Enter Coordinate (e.g 5I, 3A, etc)): ");
 
                 // check if valid start coordinate is equal to player's color

@@ -137,18 +137,25 @@ class Player {
     private Coordinate getValidCoordinateInput(Scanner userInput, String inputType){
         while(true){
             System.out.println(inputType);
-            String coordinateMoveInput = userInput.next().toLowerCase();
 
-            if (coordinateMoveInput.equals("exit") || coordinateMoveInput.equals("quit") || coordinateMoveInput.equals("close")){
-                System.out.println("\nGoodbye!");
-                System.exit(0); // exit entirely
-            }
+            try{
+                String coordinateMoveInput = userInput.next().toLowerCase();
 
-            if (coordinateMoveInput.matches("[1-9][a-iA-I]")){ // enter coordinate in format of #,C
-                return Coordinate.parseString(coordinateMoveInput);
-            }
+                if (coordinateMoveInput.equals("exit") || coordinateMoveInput.equals("quit") || coordinateMoveInput.equals("close")){
+                    System.out.println("\nGoodbye!");
+                    System.exit(0); // exit entirely
+                }
 
-            System.out.println("Invalid input! Please enter a coordinate (e.g 5I, 3A, etc) or 'quit' to exit game. \n");
+                if (coordinateMoveInput.matches("[1-9][a-iA-I]")){ // enter coordinate in format of #,C
+                    return Coordinate.parseString(coordinateMoveInput);
+                } else {
+                    throw new IllegalArgumentException("\n *** Invalid input! Please enter a coordinate or 'quit' to exit game. ***");
+                }
+
+            } catch (IllegalArgumentException invalidUserCoordinateInput){
+                System.out.println(invalidUserCoordinateInput.getMessage());
+            }     
+            System.out.println();
         }          
     }
     
@@ -162,7 +169,7 @@ class Player {
         Scanner moveInputs = new Scanner(System.in);
 
         if(!isComputer){
-            while(true) {
+            while(true) { // handle error input
                 ArrayList<String> activePlayerPieces = findActivePlayerPieces(board);
 
                 // display arrayList of where player pieces are located

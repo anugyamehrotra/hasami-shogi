@@ -24,7 +24,7 @@ public class Game {
      * Relies on display captures & turn alternation methods to carry out main primary loop functionality
      */
     void startGame() {
-        System.out.println("HASAMI SHOGI © 2026 \n");
+        System.out.println("HASAMI SHOGI © 2026 ** " + player1.getName() + " vs. " + player2.getName() + "\n");
        
         Player currPlayer = player1;
         while (!gameOver()) {

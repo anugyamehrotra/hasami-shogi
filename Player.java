@@ -79,7 +79,7 @@ class Player {
                     }
                 }
             }
-            return possibleMoves.get((int) (Math.random() * possibleMoves.size()));
+        return possibleMoves.get((int) (Math.random() * possibleMoves.size()));
     }
 
 
@@ -92,6 +92,7 @@ class Player {
     private ArrayList<String> findActivePlayerPieces(Board board){
         // GATHER ACTIVE PIECES FOR CURRENT PLAYER
         ArrayList<String> activePlayerPieces = new ArrayList<>();
+
         for(int i = 1; i <= 9; i ++){
             for(char c = 'a'; c <= 'i'; c++){
                 Coordinate findCoord = new Coordinate(i, String.valueOf(c));
@@ -114,6 +115,7 @@ class Player {
     private ArrayList<String> findValidMoves(Board board, Coordinate starCoordinate){
         // GATHER VALID MOVES FOR CURRENT PLAYER BASED ON STARTING COORDINATE
         ArrayList<String> validMoves = new ArrayList<>();
+
         for(int i = 1; i <= 9; i ++){
             for(char c = 'a'; c <= 'i'; c++){
                 Coordinate endCoordinate = new Coordinate(i, String.valueOf(c));
@@ -154,7 +156,8 @@ class Player {
 
             } catch (IllegalArgumentException invalidUserCoordinateInput){
                 System.out.println(invalidUserCoordinateInput.getMessage());
-            }     
+            }   
+
             System.out.println();
         }          
     }
@@ -176,20 +179,23 @@ class Player {
                 System.out.println(this.name + "'s pieces are located at: " + activePlayerPieces);
                 Coordinate startCoordinate = getValidCoordinateInput(moveInputs, "Select a starting coordinate to move (Enter Coordinate (e.g 5I, 3A, etc)): ");
 
+                // check if valid start coordinate is equal to player's color
                 if(board.getPiece(startCoordinate).equals(this.colour)){
                     ArrayList<String> activeValidPlayerMoves = findValidMoves(board, startCoordinate);
 
-                    // ensure active valid player moves is never 0 & player can actually move
+                    // ensure active valid player moves is never 0 & player can actually move (if piece not locked/trapped)
                     if(!(activeValidPlayerMoves.size() == 0)){
                         System.out.println("You may move to these possible positions: " + activeValidPlayerMoves); // display valid positions for players to move at to help guide user
                         Coordinate endCoordinate = getValidCoordinateInput(moveInputs, "Select an end coordinate to move (Enter Coordinate (e.g 5I, 3A, etc)): ");
 
+                        // check if starting & ending position are valid and piece can actually move
                         if(board.canMove(startCoordinate, endCoordinate)){
                             System.out.println();
                             return new Coordinate[] {startCoordinate, endCoordinate};
                         } else {
                             System.out.println("Invalid destination! That move is not allowed. Please try again \n"); // error #1 --> breaks orthogonal movement requirement
                         }
+
                     } else {
                         System.out.println("This piece piece is trapped and cannot be moved! Please try again. \n"); // error #2 --> attempting to move a trapped piece (over an enemy/itself)
                     }

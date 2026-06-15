@@ -4,8 +4,17 @@ public class Main {
 
     public static void main(String[] args) {
         
-        // HASAMI SHOGI DIALOGUE
-        // 
+        // HASAMI SHOGI GAME -- HOW TO
+            // TO RUN TERMINAL BASED PROGRAM:
+                // RUN MAIN.JAVA TO INTERACT WITH HASAMI SHOGI GAME. ENSURE YOU HAVE ALL JAVA PACKAGES, PLUGINS, AND NECESSARY SOFTWARE INSTALLED TO RUN THE JAVA COMPILER
+                // AS IDE LOADS, CLICK RUN TO START THE GAME
+                // FOLLOW ALL INPUT INSTRUCTIONS PROVIDED IN THE OUTPUT TERMINAL
+
+            // TO RUN GUI BASED PROGRAM:
+                // RUN MAINGUI.JAVA TO INTERACT WITH VISUAL-BASED HASAMI SHOGI GAME.
+                // AS MENU PROMPT OPENS (TO TRIGGER TYPE OF PLAYER MODE), CLICK PVP (PLAYER VS PLAYER) OR PVC (PLAYER VS COMPUTER) OPTION AS PER PLAYER DESCRETION
+                // FOLLOW GAMES RULES
+
         System.out.println("*****************************************");
         System.out.println("*          HASAMI SHOGI © 2026          *");
         System.out.println("***************************************** \n");

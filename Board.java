@@ -165,6 +165,17 @@ public class Board {
         }
     }
 
+    /**
+     * Method to place pieces manually for testing purposes
+     * @param coordinate coordinate of the targeted position to place upon
+     * @param piece string to indicate a black, white, or empty position (b, w, x)
+     */
+    public void setPiece(Coordinate coordinate, String piece) {
+        int row = parseRowIndex(coordinate);
+        int col = parseColumnIndex(coordinate);
+        this.gameBoard[row][col] = piece;
+    }
+
     /** 
      * Method check and kill pieces (across all directions)
      * Dynamically look through board from desired location (and overwrite player pieces based on player type) from four (4) directions & remove targets accordingly

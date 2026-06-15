@@ -3,6 +3,13 @@ import java.awt.*;
 
 public class MainGUI {
     public static void main(String[] args) {
+
+        // HASAMI SHOGI GAME -- HOW TO
+            // TO RUN GUI BASED PROGRAM:
+                // RUN MAINGUI.JAVA TO INTERACT WITH VISUAL-BASED HASAMI SHOGI GAME.
+                // AS MENU PROMPT OPENS (TO TRIGGER TYPE OF PLAYER MODE), CLICK PVP (PLAYER VS PLAYER) OR PVC (PLAYER VS COMPUTER) OPTION AS PER PLAYER DESCRETION
+                // FOLLOW GAMES RULES ON SIDE BAR TO PLAY GAME
+
         // handle user menu choice (pvp or pvc option)
         String[] userMenuOptions = {"Player v. Player", "Player v. Computer"};
         int userOption = JOptionPane.showOptionDialog(null,"Welcome to HASAMI SHOGI © 2026\n Select Game Mode:", "Hasami Shogi Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, userMenuOptions, userMenuOptions[0]);
@@ -35,9 +42,31 @@ public class MainGUI {
         JLabel playerOneCaptures = new JLabel("  White Captures: 0");
         JLabel playerTwoCaptures = new JLabel("  Black Captures: 0");
 
+        JLabel emptySpacingFormatting = new JLabel(" ");
+
+        JLabel rulesHeader = new JLabel("  HASAMI SHOGI - HOW TO PLAY:");
+        JLabel emptySpacingFormatting2 = new JLabel(" ");
+        JLabel rulesOne = new JLabel("  Move pieces one space at a time");
+        JLabel rulesTwo = new JLabel("  Pieces move in any direction");
+        JLabel rulesThree = new JLabel("  Capture by sandwiching opponents");
+        JLabel rulesFour = new JLabel("  Trap pieces orthogonally on a row");
+        JLabel rulesFive = new JLabel("  Surround enemy pieces between yours");
+        JLabel rulesSix = new JLabel("  First player to capture 5 pieces wins!");
+
+
         sideGameFrame.add(turnLabel);
         sideGameFrame.add(playerOneCaptures);
         sideGameFrame.add(playerTwoCaptures);
+        sideGameFrame.add(emptySpacingFormatting);
+        sideGameFrame.add(rulesHeader);
+        sideGameFrame.add(emptySpacingFormatting2);
+        sideGameFrame.add(rulesOne);
+        sideGameFrame.add(rulesTwo);
+        sideGameFrame.add(rulesThree);
+        sideGameFrame.add(rulesFour);
+        sideGameFrame.add(rulesFive);
+        sideGameFrame.add(rulesSix);
+        
 
         GamePanel boardPanel = new GamePanel(board, player1, player2, isComputerPlayerActive, turnLabel, playerOneCaptures, playerTwoCaptures);
 
@@ -63,7 +92,7 @@ public class MainGUI {
         mainGameFrame.add(sideBoardInfo, BorderLayout.CENTER); 
         mainGameFrame.add(sideGameFrame, BorderLayout.EAST);
 
-        mainGameFrame.setSize(800, 600); 
+        mainGameFrame.setSize(850, 600); 
         mainGameFrame.setVisible(true);
     }
 }
@@ -75,4 +104,5 @@ public class MainGUI {
 // https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html -- > Box Layout Orientation & Sizing
 // https://docs.oracle.com/javase/tutorial/uiswing/layout/grid.html -- > GridLayout Orientation
 // https://docs.oracle.com/javase/8/docs/api/java/awt/BorderLayout.html --> Border Layout Orientation
+// https://docs.oracle.com/javase/tutorial/uiswing/components/html.html --> HTML JLabel Formatting
 

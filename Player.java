@@ -165,6 +165,7 @@ class Player {
             while(true) {
                 ArrayList<String> activePlayerPieces = findActivePlayerPieces(board);
 
+                // display arrayList of where player pieces are located
                 System.out.println(this.name + "'s pieces are located at: " + activePlayerPieces);
                 Coordinate startCoordinate = getValidCoordinateInput(moveInputs, "Select a starting coordinate to move (Enter Coordinate (e.g 5I, 3A, etc)): ");
 
@@ -173,7 +174,7 @@ class Player {
 
                     // ensure active valid player moves is never 0 & player can actually move
                     if(!(activeValidPlayerMoves.size() == 0)){
-                        System.out.println("You may move to these possible positions: " + activeValidPlayerMoves);
+                        System.out.println("You may move to these possible positions: " + activeValidPlayerMoves); // display valid positions for players to move at to help guide user
                         Coordinate endCoordinate = getValidCoordinateInput(moveInputs, "Select an end coordinate to move (Enter Coordinate (e.g 5I, 3A, etc)): ");
 
                         if(board.canMove(startCoordinate, endCoordinate)){

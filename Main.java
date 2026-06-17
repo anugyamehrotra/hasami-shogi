@@ -29,7 +29,6 @@ public class Main {
         System.out.println("*                 wins!                 *");
         System.out.println("***************************************** \n");
 
-
         Scanner mainUserMenuScanner = new Scanner(System.in);
 
 

@@ -37,7 +37,6 @@ public class Main {
         while(true){
             System.out.println("Please select your choice: TAKE ME TO MENU (ENTER 'PLAY' or 'START') | TAKE ME TO RULES (ENTER 'RULES' or 'HELP' | OR EXIT (ENTER 'EXIT' OR 'QUIT') ");
 
-
             try{
                 String menuOption = mainUserMenuScanner.nextLine().trim().toLowerCase();
 

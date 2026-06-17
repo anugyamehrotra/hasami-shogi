@@ -15,7 +15,6 @@ public class Coordinate{
         this.col = col;
         this.row = row.toLowerCase();
     }
-
     
     /**
      * Method to return the String representation of a Coordinate object

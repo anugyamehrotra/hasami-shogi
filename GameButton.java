@@ -1,12 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 class GameButton extends JButton{
 
     // GameButton Attributes
     private Coordinate coordinate; // Coordinate attribute of Hasami Shogi GUI Game Buttons
-    private static final ImageIcon blackHasamiShogiPiece = new ImageIcon("assets/redHasamiShogiPiece.png"); // Image attribute of Hasami Shogi 'Black' Game Pieces
-    private static final ImageIcon redHasamiShogiPiece = new ImageIcon("assets/blackHasamiShogiPiece.png"); // Image attribute of Hasami Shogi 'Red' Game Pieces
+    private static final ImageIcon blackHasamiShogiPiece = new ImageIcon("assets/game_pieces/redHasamiShogiPiece.png"); // Image attribute of Hasami Shogi 'Black' Game Pieces
+    private static final ImageIcon redHasamiShogiPiece = new ImageIcon("assets/game_pieces/blackHasamiShogiPiece.png"); // Image attribute of Hasami Shogi 'Red' Game Pieces
+
+    public static final int PIECE_WIDTH = 50;
+    public static final int PIECE_HEIGHT = 50;
 
     /**
      * Constructor for individual GameButton object in Hasami Shogi GUI
@@ -47,7 +51,13 @@ class GameButton extends JButton{
      */
     private ImageIcon resizeImageIcon (ImageIcon pieceImages){
         Image img = pieceImages.getImage();
-        Image resizedImage = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        BufferedImage resizedImage = new BufferedImage(PIECE_WIDTH, PIECE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resizedImage.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.drawImage(img, 0, 0, PIECE_WIDTH, PIECE_HEIGHT, null);
+        g2d.dispose();
         return new ImageIcon(resizedImage);
     }
 

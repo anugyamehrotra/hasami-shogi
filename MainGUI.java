@@ -51,16 +51,37 @@ public class MainGUI {
         // main menu screen attributes
         BackgroundPanel mainMenuPanel = new BackgroundPanel("assets/main_menu_frame.png");
         
-        JButton playerbutton = new JButton("Play");
-        playerbutton.setBounds(menu_play_button_x_dist, menu_play_button_y_dist, menu_button_width_x, menu_button_height_y);
+        JButton playerButton = new JButton("Play");
+        playerButton.setBounds(menu_play_button_x_dist, menu_play_button_y_dist, menu_button_width_x, menu_button_height_y);
+
+        playerButton.setOpaque(false);
+        playerButton.setContentAreaFilled(false);
+        playerButton.setBorderPainted(false);
+        playerButton.setForeground(Color.WHITE);
+        playerButton.setFocusPainted(false);
+        playerButton.setFont(new Font("SansSerif", Font.BOLD, 20));
         
         JButton rulesButton = new JButton("Rules");
         rulesButton.setBounds(menu_rules_button_x_dist, menu_rules_button_y_dist, menu_button_width_x, menu_button_height_y);
+
+        rulesButton.setOpaque(false);
+        rulesButton.setContentAreaFilled(false);
+        rulesButton.setBorderPainted(false);
+        rulesButton.setForeground(Color.WHITE);
+        rulesButton.setFocusPainted(false);
+        rulesButton.setFont(new Font("SansSerif", Font.BOLD, 20));
         
         JButton quitButton = new JButton("Quit");
         quitButton.setBounds(menu_quit_button_x_dist, menu_quit_button_y_dist, menu_button_width_x, menu_button_height_y);
+
+        quitButton.setOpaque(false);
+        quitButton.setContentAreaFilled(false);
+        quitButton.setBorderPainted(false);
+        quitButton.setForeground(Color.WHITE);
+        quitButton.setFocusPainted(false);
+        quitButton.setFont(new Font("SansSerif", Font.BOLD, 20));
         
-        mainMenuPanel.add(playerbutton);
+        mainMenuPanel.add(playerButton);
         mainMenuPanel.add(rulesButton);
         mainMenuPanel.add(quitButton);
         
@@ -68,7 +89,7 @@ public class MainGUI {
         BackgroundPanel mainGameBoardPanel = new BackgroundPanel("assets/main_game_overlay.png");
         
         // action event listeners (user options)
-        playerbutton.addActionListener(userMenuGameTypeAction -> {
+        playerButton.addActionListener(userMenuGameTypeAction -> {
             String[] userMenuOptions = {"Player v. Player", "Player v. Computer"};
             int userMenuChoice = JOptionPane.showOptionDialog(mainGameFrame,"Welcome to HASAMI SHOGI © 2026\n Select Game Mode:", "Hasami Shogi Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, userMenuOptions, userMenuOptions[0]);
             

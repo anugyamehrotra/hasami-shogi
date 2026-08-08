@@ -59,7 +59,8 @@ public class MainGUI {
         playerButton.setBorderPainted(false);
         playerButton.setForeground(Color.WHITE);
         playerButton.setFocusPainted(false);
-        playerButton.setFont(new Font("SansSerif", Font.BOLD, 20));
+        playerButton.setFont(loadCustomFont(24f, Font.BOLD));
+        playerButton.setForeground(new Color(72, 32, 4));
         
         JButton rulesButton = new JButton("Rules");
         rulesButton.setBounds(menu_rules_button_x_dist, menu_rules_button_y_dist, menu_button_width_x, menu_button_height_y);
@@ -69,7 +70,8 @@ public class MainGUI {
         rulesButton.setBorderPainted(false);
         rulesButton.setForeground(Color.WHITE);
         rulesButton.setFocusPainted(false);
-        rulesButton.setFont(new Font("SansSerif", Font.BOLD, 20));
+        rulesButton.setFont(loadCustomFont(24f, Font.BOLD));
+        rulesButton.setForeground(new Color(72, 32, 4));
         
         JButton quitButton = new JButton("Quit");
         quitButton.setBounds(menu_quit_button_x_dist, menu_quit_button_y_dist, menu_button_width_x, menu_button_height_y);
@@ -79,7 +81,9 @@ public class MainGUI {
         quitButton.setBorderPainted(false);
         quitButton.setForeground(Color.WHITE);
         quitButton.setFocusPainted(false);
-        quitButton.setFont(new Font("SansSerif", Font.BOLD, 20));
+
+        quitButton.setFont(loadCustomFont(24f, Font.BOLD));
+        quitButton.setForeground(new Color(72, 32, 4));
         
         mainMenuPanel.add(playerButton);
         mainMenuPanel.add(rulesButton);

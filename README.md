@@ -1,4 +1,4 @@
-<img width="2457" height="640" alt="hasami_shogi_image_banner" src="https://github.com/user-attachments/assets/aa8e0788-b424-4191-97b8-07be31017f24" />
+<img width="2457" height="621" alt="hasami_shogi_image_banner" src="https://github.com/user-attachments/assets/c13532ba-658e-4d7c-bac7-1dd6f91cdd20" />
 
 ## Overview
 

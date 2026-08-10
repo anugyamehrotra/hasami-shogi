@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Hasami Shogi** is a comprehensive Java-based implementation of the traditional Japanese board game. It is built to support both a terminal-based Command Line Interface (CLI) and an interactive Graphical User Interface (GUI) driven by Java Swing, allowing for Player versus Player (PvP) and Player versus Computer (PvC) gameplay.
+**Hasami Shogi** is a comprehensive Java-based implementation of the traditional Japanese Shogi board game. It is built to support both a terminal-based Command Line Interface (CLI) and an interactive Graphical User Interface (GUI) driven by Java Swing, allowing for Player versus Player (PvP) and Player versus Computer (PvC) gameplay.
 
 The core game logic models standard Hasami Shogi mechanics across a 9x9 board grid. Players move their designated pieces orthogonally to trap and capture their opponent's pieces through sandwiching mechanics and corner kills. The game actively tracks captures, terminating when a player successfully captures five or more enemy pieces. 
 

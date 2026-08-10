@@ -82,14 +82,14 @@ Ensure the following are installed on your local system:
 Open your terminal (Command Prompt, IDE Terminal, PowerShell, or macOS/Linux Terminal) and run the following command to clone the project:
 
 ```bash
-git clone https://github.com/anugyamehrotra/UNO-Online.git
+git clone https://github.com/anugyamehrotra/Hasami-Shogi
 ```
 
 ### Step 2: Navigate & Verify the Project Directory
 Move into the project directory. Ensure the `assets/` directory remains intact at the root of the project. The Graphical interface strictly expects `assets/game_pieces/`, `assets/font-type/`, and the background PNGs to render without crashing
 
 ```bash
-cd UNO-Online
+cd Hasami-Shogi
 ```
 
 > If the font type in `assets/font-type/` fails to load, the default `SansSerif` will appear. 

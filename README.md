@@ -6,6 +6,15 @@
 
 The core game logic models standard Hasami Shogi mechanics across a 9x9 board grid. Players move their designated pieces orthogonally to trap and capture their opponent's pieces through sandwiching mechanics and corner kills. The game actively tracks captures, terminating when a player successfully captures five or more enemy pieces. 
 
+### Discover Here
+
+<img width="700" height="480" alt="example_play_screen_variant_1" src="https://github.com/user-attachments/assets/cc6550b2-0cd4-4bd9-992e-ecd130b7d9cd" />
+<br><br>
+<img width="700" height="480" alt="example_play_screen_variant_2" src="https://github.com/user-attachments/assets/a74b8279-5266-4da6-b080-098d52487a28" />
+<br><br>
+<img width="700" height="480" alt="example_play_screen_variant_3" src="https://github.com/user-attachments/assets/cebcd123-f022-47d5-b53b-be01ba25531e" />
+
+
 ---
 
 ## Features & External Dependencies

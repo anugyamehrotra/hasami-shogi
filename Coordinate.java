@@ -4,7 +4,6 @@ public class Coordinate{
     private int col; // x-plane attribute (considering 2D visual surface)
     private String row; // y-plane attribute (considering 2D visual surface)
 
-
     /**
      * Constructor for individual Coordinate object in Hasami Shogi 
      * @param col String x-plane value of Coordinate (valid domain: 9-1)

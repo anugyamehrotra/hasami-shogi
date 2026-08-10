@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
         
         // HASAMI SHOGI GAME -- HOW TO
@@ -31,14 +30,12 @@ public class Main {
 
         Scanner mainUserMenuScanner = new Scanner(System.in);
 
-
         // START GAME LAUNCH
         while(true){
             System.out.println("Please select your choice: TAKE ME TO MENU (ENTER 'PLAY' or 'START') | TAKE ME TO RULES (ENTER 'RULES' or 'HELP' | OR EXIT (ENTER 'EXIT' OR 'QUIT') ");
 
             try{
                 String menuOption = mainUserMenuScanner.nextLine().trim().toLowerCase();
-
                 
                 if(menuOption.equals("start") || menuOption.equals("game") || menuOption.equals("play") || menuOption.equals("begin")){
                     Player player1 = null;
@@ -61,7 +58,6 @@ public class Main {
                             } else {
                                 throw new IllegalArgumentException("\n *** Invalid game-choice input! Please try again! *** \n ");
                             }
-
                         } catch (IllegalArgumentException invalidGameChoiceInput) {
                             System.out.println(invalidGameChoiceInput.getMessage());
                         }

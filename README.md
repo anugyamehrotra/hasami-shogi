@@ -17,7 +17,7 @@ The core game logic models standard Hasami Shogi mechanics across a 9x9 board gr
 
 ---
 
-## Features & External Dependencies
+## Game Features & External Dependencies
 
 ### Key Features
 * **Dual Execution Modes**: The project offers a complete terminal-based console experience initialized via `Main.java`, alongside a fully interactive Java Swing graphical interface initialized via `MainGUI.java`. The terminal mode includes input validation loops utilizing a regular expression (`[1-9][a-iA-I]`) to prevent crashes from invalid coordinate structures.
